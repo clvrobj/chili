@@ -1,0 +1,16 @@
+body { font-size:14px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; }
+body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
+ol, ul { list-style: none; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
+h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
+h2, h3 { font-size:14px; color:#A2122F; margin:0 0 12px; }
+
+#header { border-bottom: 1px dashed #DDD; margin-bottom:20px; }
+#header-inner { width:900px; margin:0 auto; padding: 12px 0; }
+#header h1 { margin:0; padding:0; }
+#content { width:900px; margin:0 auto; }
+#main { float:left; width:650px; }
+#aside { float:right; width:230px; }
+#footer { border-top: 1px dashed #DDD; margin-top:20px; }
+#footer-inner { width:900px; margin:0 auto; padding:20px 30px 30px; }
+.clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
