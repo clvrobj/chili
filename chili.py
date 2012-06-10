@@ -5,9 +5,14 @@ from markdown import markdown
 from flask import Flask, redirect, url_for
 from flaskext.mako import init_mako, render_template
 
-APP_KEY = 'bmkh1yhg71eu9dt'
-APP_SECRET = 'ao1ejlaaymwyopa'
-ACCESS_TYPE = 'app_folder'
+APP_KEY = ''
+APP_SECRET = ''
+ACCESS_TYPE = ''
+
+try:
+    from local_config import *
+except ImportError:
+    pass
 
 RAWS_DIR = 'raw_entries'
 ENTRIES_DIR = 'public/entries'
@@ -46,7 +51,7 @@ def sync_folder(client):
         f, meta = client.get_file_and_metadata(p)
         name = p.rsplit('.', 1)[0].lstrip('/')
         raw = open(join(RAWS_DIR, name), 'w')
-        raw.write(f)
+        raw.write(f.read())
     print 'Sync folder done.'
 
 def gen_html(file_name):
@@ -72,10 +77,18 @@ def sync_all():
 
 @app.route('/')
 def show_entries():
+    entries = []
+    for f in os.listdir(ENTRIES_DIR):
+        if isfile(join(ENTRIES_DIR, f)) and f.endswith('.html'):
+            title = f.rsplit('.html', 1)[0]
+            link = title.replace(' ', '-')
+            content = open(join(ENTRIES_DIR, f), 'r').read()
+            entries.append(dict(link=link, title=title, content=content))
     return render_template('home.html', c=locals())
 
 @app.route('/<path:name>')
 def show_entry(name=None):
+    name = name.replace('-', ' ')
     try:
         with open(join(ENTRIES_DIR, '%s.html' % name)) as f:
             file_content = f.read()

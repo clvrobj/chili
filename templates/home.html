@@ -1,5 +1,15 @@
 <%inherit file="/base.html"/>
 
 <%def name="main()">
-${c.get('account', '')}
+<%
+   entries = c.get('entries', [])
+%>
+<div id="entries">
+  % for e in entries:
+  <div class="entry">
+    <a href="${e['link']}"><span class="title">${e['title']}</span></a>
+    ${e['content'] | n}
+  </div>
+  % endfor
+</div>
 </%def>

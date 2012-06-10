@@ -1,5 +1,6 @@
 <%inherit file="/base.html"/>
 
 <%def name="main()">
+<h2>${c.get('name', '')}</h2>
 ${c.get('file_content', '') | n}
 </%def>
