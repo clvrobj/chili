@@ -26,6 +26,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+*.rdb
+
 # chili
 local_config.py
 public/entries/
