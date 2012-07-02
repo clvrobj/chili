@@ -32,3 +32,4 @@ pip-log.txt
 local_config.py
 public/entries/*.*
 raw_entries/
+logs/
