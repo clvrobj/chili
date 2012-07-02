@@ -1,8 +1,9 @@
 #-*- coding:utf-8 -*-
 import os
 from os.path import isfile, join
+import urllib
 from markdown import markdown
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, send_from_directory
 from flaskext.mako import init_mako, render_template
 
 APP_KEY = ''
@@ -14,9 +15,11 @@ try:
 except ImportError:
     pass
 
+
 RAWS_DIR = 'raw_entries'
 ENTRIES_DIR = 'public/entries'
 MAKO_DIR = 'templates'
+ENTRY_LINK_PATTERN = '/entry/%s'
 
 app = Flask(__name__)
 
@@ -54,11 +57,27 @@ def sync_folder(client):
         raw.write(f.read())
     print 'Sync folder done.'
 
-def gen_html(file_name):
+def gen_entry(file_name):
     raw = open(join(RAWS_DIR, file_name), 'r')
-    gen = open(join(ENTRIES_DIR, '%s.html' % file_name.rstrip('.md')), 'wb')
-    gen.write(markdown(raw.read()))
+    title = file_name.rstrip('.md')
+    path = urllib.quote_plus(title) + '.html'
+    gen = open(join(ENTRIES_DIR, path), 'wb')
+    content = markdown(raw.read())
+    html_content = render_template('entry.html', c={'file_content':content})
+    gen.write(html_content)
+    gen.close()
+    raw.close()
+    return dict(title=title, path=path, content=content)
 
+def gen_home(files):
+    entries = []
+    for f in files:
+        entries.append(dict(link=ENTRY_LINK_PATTERN % f['path'], title=f['title'], content=f['content']))
+    gen = open(join(ENTRIES_DIR, 'home.html'), 'wb')
+    gen.write(render_template('home.html', c={'entries':entries}))
+    gen.close()
+
+@app.route('/sync')
 def sync_all():
     client = auth_dropbox()
     if client:
@@ -66,9 +85,14 @@ def sync_all():
         print 'Sync folder OK.'
         print 'Gen html now...'
         try:
+            files = []
             for f in os.listdir(RAWS_DIR):
                 if isfile(join(RAWS_DIR, f)):
-                    gen_html(f)
+                    files.append(gen_entry(f))
+                    print 'Gen %s OK.' % f
+            # gen home
+            gen_home(files)
+            print 'Gen home page OK.'
             return 'Done!'
         except OSError:
             return 'Woops! File operations error ...'
@@ -76,26 +100,12 @@ def sync_all():
         print 'Can not auth to dropbox'
 
 @app.route('/')
-def show_entries():
-    entries = []
-    for f in os.listdir(ENTRIES_DIR):
-        if isfile(join(ENTRIES_DIR, f)) and f.endswith('.html'):
-            title = f.rsplit('.html', 1)[0]
-            link = title.replace(' ', '-')
-            content = open(join(ENTRIES_DIR, f), 'r').read()
-            entries.append(dict(link=link, title=title, content=content))
-    return render_template('home.html', c=locals())
+def home():
+    return send_from_directory(ENTRIES_DIR, 'home.html')
 
-@app.route('/<path:name>')
-def show_entry(name=None):
-    name = name.replace('-', ' ')
-    try:
-        with open(join(ENTRIES_DIR, '%s.html' % name)) as f:
-            file_content = f.read()
-            return render_template('entry.html', c=locals())
-    except IOError as e:
-        return 'No such entry.'
-    return 'name: %s' % name.rstrip('/')
+@app.route(ENTRY_LINK_PATTERN % '<path:filename>')
+def entry(filename):
+    return send_from_directory(ENTRIES_DIR, filename)
 
 
 if __name__ == '__main__':
