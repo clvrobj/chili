@@ -30,5 +30,5 @@ pip-log.txt
 
 # chili
 local_config.py
-public/entries/
+public/entries/*.*
 raw_entries/
