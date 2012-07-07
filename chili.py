@@ -28,6 +28,10 @@ MAKO_DIR = 'templates'
 ENTRY_LINK_PATTERN = '/entry/%s'
 
 app = Flask(__name__)
+app.config['MAKO_DIR'] = MAKO_DIR
+init_mako(app)
+app.secret_key = APP_SECRET_KEY
+app.debug = True
 
 # class Dropbox(object):
 
@@ -200,8 +204,4 @@ def test():
 
 
 if __name__ == '__main__':
-    app.config['MAKO_DIR'] = MAKO_DIR
-    init_mako(app)
-    app.secret_key = APP_SECRET_KEY
-    app.debug = True
     app.run()
