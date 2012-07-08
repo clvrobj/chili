@@ -8,7 +8,9 @@
   % for e in entries:
   <div class="entry">
     <a href="${e['link']}"><span class="title">${e['title']}</span></a>
-    ${e['content'] | n}
+    <div class="markdown-body">
+      ${e['content'] | n}
+    </div>
   </div>
   % endfor
 </div>

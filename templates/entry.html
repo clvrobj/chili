@@ -2,5 +2,7 @@
 
 <%def name="main()">
 <h2>${c.get('name', '')}</h2>
-${c.get('file_content', '') | n}
+<div class="markdown-body">
+  ${c.get('file_content', '') | n}
+</div>
 </%def>

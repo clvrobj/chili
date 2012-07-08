@@ -20,3 +20,13 @@ a:hover { color: #205f80; text-decoration: none; }
 #entries .entry { margin-bottom:20px; }
 #entries .entry .title { font-size:17px; }
 #entries .entry h1, #entries .entry h2, #entries .entry h3 { font-size:14px; }
+
+.markdown-body { padding:30px; }
+.markdown-body > :first-child { margin-top:0!important; }
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6
+{ margin:20px 0 10px; padding:0; font-weight:bold; -webkit-font-smoothing:antialiased; cursor:text; position:relative; }
+.markdown-body h2 { font-size:24px; border-bottom:1px solid #CCC; color:black; }
+.markdown-body, .markdown-body p { font-size:14px; line-height:1.6; }
+.markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre { margin:15px 0; }
+.markdown-body ul, .markdown-body ol { padding-left:30px; }
+.markdown-body ul li { line-height:1.6; }
