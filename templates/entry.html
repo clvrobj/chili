@@ -1,8 +1,8 @@
 <%inherit file="/base.html"/>
 
 <%def name="main()">
-<h2>${c.get('name', '')}</h2>
+<h2>${c.get('title', '')}</h2>
 <div class="markdown-body">
-  ${c.get('file_content', '') | n}
+  ${c.get('content', '') | n}
 </div>
 </%def>

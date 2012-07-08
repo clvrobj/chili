@@ -38,7 +38,7 @@ def gen_entry(file_name):
     path = urllib.quote_plus(title) + '.html'
     gen = open(join(ENTRIES_DIR, path), 'wb')
     content = markdown(raw.read().decode('utf8'))
-    html_content = render_template('entry.html', c={'file_content':content})
+    html_content = render_template('entry.html', c=locals())
     gen.write(html_content)
     gen.close()
     raw.close()
@@ -79,6 +79,15 @@ def sync():
         return gen_files()
     else:
         print 'Can not auth to dropbox'
+
+
+@app.route('/regen')
+def regen_files():
+    return gen_files()
+
+@app.route('/ops')
+def operations():
+    return render_template('operations.html')
 
 @app.route('/')
 def home():
