@@ -8,7 +8,7 @@ from flask import session as flask_session
 from flaskext.mako import init_mako, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox
-from config import *
+from config import APP_SECRET_KEY, RAWS_DIR, ENTRIES_DIR, MAKO_DIR, ENTRY_LINK_PATTERN
 
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
@@ -57,13 +57,13 @@ def gen_files():
     try:
         files_info = []
         for f in os.listdir(RAWS_DIR):
-            if isfile(join(RAWS_DIR, f)):
+            if isfile(join(RAWS_DIR, f)) and f.endswith('.md'):
                 files_info.append(gen_entry(f))
                 print 'Gen %s OK.' % f
-            # gen home
-            gen_home(files_info)
-            print 'Gen home page OK.'
-            return 'Done!'
+        # gen home
+        gen_home(files_info)
+        print 'Gen home page OK.'
+        return 'Done!'
     except OSError:
         return 'Woops! File operations error ...'
 
