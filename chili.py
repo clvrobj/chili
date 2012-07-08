@@ -46,7 +46,7 @@ def gen_entry(file_name):
 
 def gen_home(files_info):
     entries = []
-    for f in files:
+    for f in files_info:
         entries.append(dict(link=ENTRY_LINK_PATTERN % f['path'], title=f['title'], content=f['content']))
     gen = open(join(ENTRIES_DIR, 'home.html'), 'wb')
     gen.write(render_template('home.html', c={'entries':entries}))
