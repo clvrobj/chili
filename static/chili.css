@@ -6,15 +6,17 @@ h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; colo
 h2, h3 { font-size:17px; color:#A2122F; margin:0 0 12px; }
 a:link, a:visited { color: #4083A8; text-decoration: none; }
 a:hover { color: #205f80; text-decoration: none; }
+::selection { background:#F6810B; color:white; text-shadow:none }
 
-#header { border-bottom: 1px dashed #DDD; margin-bottom:20px; }
-#header-inner { width:900px; margin:0 auto; padding: 12px 0; }
+#header { border-bottom: 1px solid #E0DEDC; background-color:#E8F3F8 }
+#header-inner { width:650px; margin:0 auto; padding: 12px 0; }
 #header h1 { margin:0; padding:0; }
-#content { width:900px; margin:0 auto; }
-#main { float:left; width:650px; }
+#wrap {  padding:20px 0; background-color:#FFFFFD }
+#content { width:650px; margin:0 auto; }
+#main { float:left; width:100%; }
 #aside { float:right; width:230px; }
-#footer { border-top: 1px dashed #DDD; margin-top:20px; }
-#footer-inner { width:900px; margin:0 auto; padding:20px 30px 30px; }
+#footer { min-height:100%; border-top: 1px solid #E0DEDC; background-color:#96FFFE }
+#footer-inner { width:650px; margin:0 auto; padding:20px 30px 30px; }
 .clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 #entries .entry { margin-bottom:20px; }
