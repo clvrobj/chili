@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>${self.title()}</title>
   <link rel="stylesheet" href="${url_for('static', filename='chili.css')}">
 </head>
 <body>
@@ -11,10 +12,12 @@
 </body>
 </html>
 
+<%def name="title()"></%def>
+
 <%def name="header()">
 <div id="header">
   <div id="header-inner" class="clearfix">
-    <a href="/"><h1>Zhang Chi的日志</h1></a>
+    <a href="/"><h1>张 驰</h1></a>
   </div>
 </div>
 </%def>
