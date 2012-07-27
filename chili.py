@@ -31,7 +31,7 @@ def sync_folder(client):
         f, meta = client.get_file_and_metadata(p)
         raw = open(join(RAWS_DIR, name), 'w')
         raw.write(f.read())
-        get create time
+        # get create time
         first = client.revisions(p)[-1]
     print 'Sync folder done.'
 
