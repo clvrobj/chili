@@ -5,6 +5,7 @@ import urllib
 from datetime import datetime
 from dateutil import parser
 from pytz import timezone
+from operator import itemgetter
 import markdown
 from flask import Flask, request, redirect, url_for, send_from_directory, session as flask_session
 from flaskext.mako import init_mako, render_template
@@ -98,6 +99,7 @@ def gen_home_page(files_info):
     for f in files_info:
         entries.append(dict(link=ENTRY_LINK_PATTERN % f['path'], title=f['title'],
                             content=f['content'], created_at=f['created_at']))
+    entries = sorted(entries, key=itemgetter('created_at'), reverse=True)
     gen = open(join(LOCAL_ENTRIES_DIR, 'home.html'), 'wb')
     gen.write(render_template('home.html', c=locals()))
     gen.close()
