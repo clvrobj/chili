@@ -3,9 +3,13 @@
 <%def name="title()">${c.get('title', '')}</%def>
 
 <%def name="main()">
-<h2>${c.get('title', '')}</h2>
-<div class="created-time">${c.get('created_at')}</div>
-<div class="markdown-body">
-  ${c.get('content', '') | n}
+<div class="entry">
+  <div class="header">
+    <h2>${c.get('title', '')}</h2>
+    <div class="created-time">${c.get('created_at')}</div>
+  </div>
+  <div class="markdown-body">
+    ${c.get('content', '') | n}
+  </div>
 </div>
 </%def>

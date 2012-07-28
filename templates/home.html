@@ -9,8 +9,10 @@
 <div id="entries">
   % for e in entries:
   <div class="entry">
-    <a href="${e['link']}"><span class="title">${e['title']}</span></a>
-    <div class="created-time">${e['created_at']}</div>
+    <div class="header">
+      <h2><a href="${e['link']}">${e['title']}</a></h2>
+      <div class="created-time">${e['created_at']}</div>
+    </div>
     <div class="markdown-body">
       ${e['content'] | n}
     </div>

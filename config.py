@@ -13,7 +13,14 @@ except ImportError:
 DROPBOX_REQUEST_TOKEN_KEY = 'dropbox_request_token'
 DROPBOX_REQUEST_TOKEN_SECRET_KEY = 'dropbox_request_token_secret'
 DROPBOX_ACCESS_TOKEN_KEY = 'dropbox_access_token'
+
+RAW_ENTRY_FILE_FORMAT = 'md'
 RAWS_DIR = 'raw_entries'
-ENTRIES_DIR = 'public/entries'
+REMOTE_IMAGE_DIR = '/image'
+LOCAL_ENTRIES_DIR = 'public/entries'
+LOCAL_IMAGE_DIR = 'public/image'
 MAKO_DIR = 'templates'
 ENTRY_LINK_PATTERN = '/entry/%s'
+IMAGE_LINK_PATTERN = '/img/%s'
+
+TIMEZONE = 'Asia/Shanghai'
