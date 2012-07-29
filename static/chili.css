@@ -1,4 +1,4 @@
-body { font-size:12px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
+body { font-size:13px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
 body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
@@ -9,14 +9,14 @@ a:hover { color: #205f80; text-decoration: none; }
 .clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 #header { }
-#header-inner { width:650px; margin:0 auto; padding: 12px 30px; border-bottom: 1px solid #E0DEDC; }
+#header-inner { width:660px; margin:0 auto; padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
 #header h1 { margin:0; padding:0; }
 #wrap {  padding:20px 0;  }
-#content { width:650px; margin:0 auto; }
+#content { width:660px; margin:0 auto; }
 #main { float:left; width:100%; }
 #aside { float:right; width:230px; }
 #footer { min-height:100%; }
-#footer-inner { width:650px; margin:0 auto; padding:20px 30px 30px; border-top: 1px solid #E0DEDC; }
+#footer-inner { width:660px; margin:0 auto; padding:20px 0; border-top: 1px solid #E0DEDC; }
 
 .entry { margin-bottom:20px; }
 .entry .header { color:#888 }

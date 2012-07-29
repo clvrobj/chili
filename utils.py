@@ -1,9 +1,20 @@
 #-*- coding:utf-8 -*-
+from os import listdir
+from os.path import isfile, join
+import urllib
+from datetime import datetime
+from dateutil import parser
+from pytz import timezone
+from operator import itemgetter
+import markdown
 from werkzeug.utils import cached_property
 from flask import request, session as flask_session
+from flaskext.mako import render_template
 from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
-    DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY
+    DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
+    RAWS_DIR, LOCAL_ENTRIES_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
+    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, TIMEZONE
 
 class Dropbox(object):
 
@@ -45,3 +56,102 @@ class Dropbox(object):
         access_token = flask_session[DROPBOX_ACCESS_TOKEN_KEY]
         self.session.set_token(access_token['key'], access_token['secret'])
         return client.DropboxClient(self.session)
+
+
+class DropboxSync(object):
+    
+    def __init__(self, client):
+        self.client = client
+
+    def process_remote_file(self, path):
+        print 'Downloading %s' % path
+        suffix = path.split('.')[-1]
+        if suffix == RAW_ENTRY_FILE_FORMAT:
+            dir_path = RAWS_DIR
+        elif suffix == 'png' or suffix == 'jpg' or suffix == 'jpeg' or suffix == 'gif':
+            dir_path = LOCAL_IMAGE_DIR
+        else:
+            return
+        name = path.split('/')[-1]
+        target = join(dir_path, name)
+        if not isfile(target) or len(self.client.revisions(path)) > 1:
+            f = self.client.get_file(path)
+            raw = open(target, 'w').write(f.read())
+            return
+        # exists and no history
+        print 'Already downloaded'
+        return
+
+    def process_remote_dir(self, path):
+        print 'Processing remote dir', path
+        if path != REMOTE_IMAGE_DIR:
+            return
+        folder_meta = self.client.metadata(path)
+        for f in folder_meta['contents']:
+            self.process_remote_file(f['path'])
+
+    def sync_folder(self):
+        """
+        download all files in the app folder into raws folder
+        """
+        folder_meta = self.client.metadata('/')
+        for f in folder_meta['contents']:
+            path = f['path']
+            if f['is_dir']:
+                self.process_remote_dir(path)
+            else:
+                self.process_remote_file(path)
+        print 'Sync folder done.'
+
+    def get_file_created_at(self, path):
+
+        def format_time_str(time):
+            time = time or datetime.now()
+            return time.strftime('%Y-%m-%d %H:%M:%S')
+
+        meta = self.client.metadata(path)
+        if not meta['is_dir'] and path.split('.')[-1] == RAW_ENTRY_FILE_FORMAT:
+            first = self.client.revisions(path)[-1]
+            return format_time_str(parser.parse(first['modified']).astimezone(timezone(TIMEZONE)))
+
+    def gen_entry_page(self, file_name):
+        name = file_name.rstrip('.md')
+        raw = open(join(RAWS_DIR, file_name), 'r')
+        md = markdown.Markdown(extensions=['meta'])
+        content = md.convert(raw.read().decode('utf8'))
+        meta = md.Meta
+        title = meta.get('title', [''])[0] or name
+        created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
+        html_content = render_template('entry.html', c=locals())
+        path = urllib.quote_plus(name) + '.html'
+        gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
+        gen.write(html_content)
+        gen.close()
+        raw.close()
+        return dict(orig_file=file_name, title=title, created_at=created_at, path=path, content=content)
+
+    def gen_home_page(self, files_info):
+        entries = []
+        for f in files_info:
+            entries.append(dict(link=ENTRY_LINK_PATTERN % f['path'], title=f['title'],
+                                content=f['content'], created_at=f['created_at']))
+        entries = sorted(entries, key=itemgetter('created_at'), reverse=True)
+        gen = open(join(LOCAL_ENTRIES_DIR, 'home.html'), 'wb')
+        gen.write(render_template('home.html', c=locals()))
+        gen.close()
+
+    def gen_files(self):
+        print 'Gen html file now...'
+        try:
+            dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
+            files_info = []
+            for f in listdir(RAWS_DIR):
+                if isfile(join(RAWS_DIR, f)) and f.endswith('.md') and f in dropbox_files:
+                    files_info.append(self.gen_entry_page(f))
+                    print 'Gen %s OK.' % f
+            # gen home
+            self.gen_home_page(files_info)
+            print 'Gen home page OK.'
+            return 'Done!'
+        except OSError:
+            return 'Woops! File operations error ...'
