@@ -9,6 +9,7 @@
   ${self.header()}
   ${self.content()}
   ${self.footer()}
+  ${self.tracking()}
 </body>
 </html>
 
@@ -42,4 +43,20 @@
     © 2012 <a href="https://twitter.com/#!/ClvrObj" target="_blank">clvrobj</a><!-- based on <a href="https://github.com/clvrobj/chili" title="A self-made Python blog framework" target="_blank">Chili</a>-->
   </div>
 </div>
+</%def>
+
+<%def name="tracking()">
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '50151764613f5d5f9b000025');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
 </%def>
