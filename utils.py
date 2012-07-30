@@ -121,6 +121,9 @@ class DropboxSync(object):
         md = markdown.Markdown(extensions=['meta'])
         content = md.convert(raw.read().decode('utf8'))
         meta = md.Meta
+        print meta
+        if meta.get('public', '').lower() == 'no':
+            return False
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
         html_content = render_template('entry.html', c=locals())
@@ -145,8 +148,10 @@ class DropboxSync(object):
             files_info = []
             for f in listdir(RAWS_DIR):
                 if isfile(join(RAWS_DIR, f)) and f.endswith('.md') and f in dropbox_files:
-                    files_info.append(self.gen_entry_page(f))
-                    print 'Gen %s OK.' % f
+                    info = self.gen_entry_page(f)
+                    if info:
+                        files_info.append(info)
+                        print 'Gen %s OK.' % f
             # gen home
             self.gen_home_page(files_info)
             self.gen_rss(files_info)
