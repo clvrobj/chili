@@ -55,6 +55,10 @@ def entry(filename):
 def image(filename):
     return send_from_directory(LOCAL_IMAGE_DIR, filename)
 
+@app.route('/<path:filename>')
+def public(filename):
+    return send_from_directory('public', filename)
+
 @app.route('/login')
 def login():
     url = dropbox.login_url
