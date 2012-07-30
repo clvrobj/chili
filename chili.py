@@ -4,7 +4,7 @@ from flaskext.mako import init_mako, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox, DropboxSync
 from config import APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY, \
-    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR
+    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR
 
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
@@ -45,7 +45,7 @@ def operations():
 
 @app.route('/')
 def home():
-    return send_from_directory(LOCAL_ENTRIES_DIR, 'home.html')
+    return send_from_directory(PUBLIC_DIR, 'home.html')
 
 @app.route(ENTRY_LINK_PATTERN % '<path:filename>')
 def entry(filename):

@@ -2,6 +2,7 @@
 from os import listdir
 from os.path import isfile, join
 import urllib
+import re
 from datetime import datetime
 from dateutil import parser
 from pytz import timezone
@@ -14,7 +15,7 @@ from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
-    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, TIMEZONE
+    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL
 
 class Dropbox(object):
 
@@ -128,15 +129,12 @@ class DropboxSync(object):
         gen.write(html_content)
         gen.close()
         raw.close()
-        return dict(orig_file=file_name, title=title, created_at=created_at, path=path, content=content)
+        return dict(orig_file=file_name, title=title, created_at=created_at, path=path, link=ENTRY_LINK_PATTERN % path, content=content)
 
     def gen_home_page(self, files_info):
         entries = []
-        for f in files_info:
-            entries.append(dict(link=ENTRY_LINK_PATTERN % f['path'], title=f['title'],
-                                content=f['content'], created_at=f['created_at']))
-        entries = sorted(entries, key=itemgetter('created_at'), reverse=True)
-        gen = open(join(LOCAL_ENTRIES_DIR, 'home.html'), 'wb')
+        entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
+        gen = open(join(PUBLIC_DIR, 'home.html'), 'wb')
         gen.write(render_template('home.html', c=locals()))
         gen.close()
 
@@ -151,7 +149,25 @@ class DropboxSync(object):
                     print 'Gen %s OK.' % f
             # gen home
             self.gen_home_page(files_info)
+            self.gen_rss(files_info)
             print 'Gen home page OK.'
             return 'Done!'
         except OSError:
             return 'Woops! File operations error ...'
+
+    def gen_rss(self, files_info):
+        import PyRSS2Gen
+        items = []
+        entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
+        for f in entries:
+            link = DOMAIN_URL + f['link']
+            desc = re.sub(r'src="/', 'src="http://zhangchi.de/', f['content'])
+            items.append(PyRSS2Gen.RSSItem(link=link, title=f['title'],
+                                           description=desc,
+                                           pubDate=f['created_at'],
+                                           guid = PyRSS2Gen.Guid(link)))
+
+        rss = PyRSS2Gen.RSS2(title='张驰', link='http://zhangchi.de',
+                             description='', lastBuildDate = datetime.now(),
+                             items=items)
+        rss.write_xml(open(join(PUBLIC_DIR, 'rss.xml'), 'w'))

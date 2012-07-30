@@ -30,6 +30,7 @@ pip-log.txt
 
 # chili
 local_config.py
+public/*.*
 public/entries/*.*
 public/image/*.*
 raw_entries/
