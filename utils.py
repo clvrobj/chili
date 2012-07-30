@@ -121,8 +121,8 @@ class DropboxSync(object):
         md = markdown.Markdown(extensions=['meta'])
         content = md.convert(raw.read().decode('utf8'))
         meta = md.Meta
-        print meta
-        if meta.get('public', '').lower() == 'no':
+        is_public = meta.get('public')
+        if is_public and is_public[0].lower() == 'no':
             return False
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
