@@ -1,6 +1,7 @@
 #-*- coding:utf-8 -*-
 from flask import Flask, request, redirect, url_for, send_from_directory, session as flask_session
-from flaskext.mako import init_mako, render_template
+# from flaskext.mako import init_mako, render_template
+from flask.ext.mako import MakoTemplates, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox, DropboxSync
 from config import APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY, \
@@ -8,7 +9,9 @@ from config import APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY, \
 
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
-init_mako(app)
+# init_mako(app)
+mako = MakoTemplates(app)
+mako.init_app(app)
 app.secret_key = APP_SECRET_KEY
 app.debug = True
 dropbox = Dropbox()
@@ -88,16 +91,6 @@ def login_success():
 def logout():
     dropbox.logout()
     return redirect('/')
-
-@app.route('/test')
-def test():
-    if not dropbox.is_authenticated:
-        return redirect('/login')
-
-    c = dropbox.client
-    print "linked account:", c.account_info()
-
-    return 'already logged in'
 
 
 if __name__ == '__main__':
