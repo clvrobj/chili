@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /sync
+Disallow: /login
+Disallow: /logout
+Disallow: /regen
+Disallow: /ops
+Disallow: /login_success
