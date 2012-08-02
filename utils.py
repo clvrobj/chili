@@ -10,7 +10,8 @@ from operator import itemgetter
 import markdown
 from werkzeug.utils import cached_property
 from flask import request, session as flask_session
-from flaskext.mako import render_template
+# from flaskext.mako import render_template
+from flask.ext.mako import render_template
 from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
