@@ -20,7 +20,7 @@ a:hover { color: #205f80; text-decoration: none; }
 
 .entry { margin-bottom:20px; }
 .entry .header { color:#888 }
-.entry:after { content:"●"; font-size:18px; color:#BEBEBE; margin:0 330px; }
+.entry:after { content:"●"; font-size:16px; color:#BEBEBE; margin:0 330px; }
 
 .markdown-body { padding:30px; }
 .markdown-body > :first-child { margin-top:0!important; }
