@@ -1,11 +1,12 @@
 #-*- coding:utf-8 -*-
-from flask import Flask, request, redirect, url_for, send_from_directory, session as flask_session
+from flask import Flask, request, redirect, url_for, send_from_directory, abort, session as flask_session
 # from flaskext.mako import init_mako, render_template
 from flask.ext.mako import MakoTemplates, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox, DropboxSync
-from config import APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY, \
-    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR
+from config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY,\
+    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR,\
+    DOMAIN, DOMAIN2
 
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
@@ -56,6 +57,10 @@ def entry(filename):
 
 @app.route(IMAGE_LINK_PATTERN % '<path:filename>')
 def image(filename):
+    if not LOCAL_DEV:
+        r = request.referrer.split('/')[2]
+        if r != DOMAIN and r != DOMAIN2: 
+            abort(403)
     return send_from_directory(LOCAL_IMAGE_DIR, filename)
 
 @app.route('/<path:filename>')
