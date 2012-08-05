@@ -1,4 +1,4 @@
-body { font-size:13px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
+body { font-size:13px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD; color:#333 }
 body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
@@ -26,8 +26,8 @@ a:hover { color: #205f80; text-decoration: none; }
 .markdown-body > :first-child { margin-top:0!important; }
 .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6
 { margin:20px 0 10px; padding:0; font-weight:bold; -webkit-font-smoothing:antialiased; cursor:text; position:relative; }
-.markdown-body h3 { font-size:18px }
-.markdown-body h2 { font-size:17px; border-bottom:1px solid #CCC }
+.markdown-body h3 { font-size:18px; color:#333 }
+.markdown-body h2 { font-size:17px; border-bottom:1px solid #CCC; color:#333 }
 .markdown-body, .markdown-body p { line-height:1.6; }
 .markdown-body p, .markdown-body blockquote, .markdown-body ul, .markdown-body ol, .markdown-body dl, .markdown-body table, .markdown-body pre { margin:15px 0; }
 .markdown-body ul, .markdown-body ol { padding-left:30px; }
