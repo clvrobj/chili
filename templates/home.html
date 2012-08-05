@@ -1,11 +1,8 @@
 <%inherit file="/base.html"/>
 
-<%def name="title()">张驰</%def>
+<%def name="page_title()">张驰</%def>
 
 <%def name="main()">
-<%
-   entries = c.get('entries', [])
-%>
 <div id="entries">
   % for e in entries:
   <div class="entry">

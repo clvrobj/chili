@@ -125,9 +125,13 @@ class DropboxSync(object):
         is_public = meta.get('public')
         if is_public and is_public[0].lower() == 'no':
             return False
+        is_comment = meta.get('comment')
+        is_comment = is_comment and is_comment[0].lower() == 'yes'
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
-        html_content = render_template('entry.html', c=locals())
+        l = locals()
+        l.pop('self')
+        html_content = render_template('entry.html', **l)
         path = urllib.quote_plus(name) + '.html'
         gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
         gen.write(html_content)
@@ -139,7 +143,9 @@ class DropboxSync(object):
         entries = []
         entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
         gen = open(join(PUBLIC_DIR, 'home.html'), 'wb')
-        gen.write(render_template('home.html', c=locals()))
+        l = locals()
+        l.pop('self')
+        gen.write(render_template('home.html', **l))
         gen.close()
 
     def gen_files(self):

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>${self.title()}</title>
+  <title>${self.page_title()}</title>
   <link rel="stylesheet" href="${url_for('static', filename='chili.css')}" />
   <link rel="alternate" type="application/rss+xml" title="RSS Feed for zhangchi.de" href="/rss.xml" />
 </head>
@@ -14,7 +14,7 @@
 </body>
 </html>
 
-<%def name="title()"></%def>
+<%def name="page_title()"></%def>
 
 <%def name="header()">
 <div id="header">
