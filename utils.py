@@ -16,7 +16,7 @@ from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
-    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL
+    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL
 
 class Dropbox(object):
 
@@ -48,6 +48,10 @@ class Dropbox(object):
     
         # Remove available request token
         del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
+
+        if DROPBOX_ACCOUNT_EMAIL != c.account_info().get('email'):
+            # owner account is wrong should not login
+            self.logout()
 
     def logout(self):
         if DROPBOX_ACCESS_TOKEN_KEY in flask_session:

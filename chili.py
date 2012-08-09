@@ -27,7 +27,7 @@ def sync():
     if client:
         sync = DropboxSync(client)
         sync.sync_folder()
-        return sync.gen_files()
+        return sync.gen_files() + ' <a href="/">Back to home</a>'
     else:
         print 'Can not auth to dropbox'
 
