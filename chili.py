@@ -5,7 +5,7 @@ from flask.ext.mako import MakoTemplates, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox, DropboxSync
 from config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY,\
-    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR,\
+    OLD_ENTRY_LINK_PATTERN, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR,\
     DOMAIN, DOMAIN2
 
 app = Flask(__name__)
@@ -51,8 +51,12 @@ def operations():
 def home():
     return send_from_directory(PUBLIC_DIR, 'home.html')
 
-@app.route(ENTRY_LINK_PATTERN % '<path:filename>')
+@app.route(OLD_ENTRY_LINK_PATTERN % '<path:filename>')
 def entry(filename):
+    return redirect(ENTRY_LINK_PATTERN % filename)
+
+@app.route(ENTRY_LINK_PATTERN % '<path:filename>')
+def post(filename):
     return send_from_directory(LOCAL_ENTRIES_DIR, filename)
 
 @app.route(IMAGE_LINK_PATTERN % '<path:filename>')
@@ -99,4 +103,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=7777)

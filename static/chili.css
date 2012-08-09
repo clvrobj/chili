@@ -3,6 +3,7 @@ body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
 h2, h3 { font-size:17px; color:#A2122F; margin:0 0 7px; }
+ul, ol { list-style-type:none; display:block; margin:0 }
 a:link, a:visited { color: #4083A8; text-decoration: none; }
 a:hover { color: #205f80; text-decoration: none; }
 ::selection { background:#F6810B; color:white; text-shadow:none }

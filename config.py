@@ -23,6 +23,7 @@ PUBLIC_DIR = 'public'
 LOCAL_ENTRIES_DIR = 'public/entries'
 LOCAL_IMAGE_DIR = 'public/image'
 MAKO_DIR = 'templates'
+OLD_ENTRY_LINK_PATTERN = '/entry/%s' # not in used
 ENTRY_LINK_PATTERN = '/post/%s'
 IMAGE_LINK_PATTERN = '/img/%s'
 
