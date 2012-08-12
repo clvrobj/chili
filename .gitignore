@@ -33,6 +33,7 @@ local_config.py
 public/*.*
 !public/robots.txt
 public/entries/*.*
+public/tags/*.*
 public/image/*.*
 raw_entries/
 logs/
