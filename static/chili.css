@@ -19,9 +19,11 @@ a:hover { color: #205f80; text-decoration: none; }
 #footer { min-height:100%; }
 #footer-inner { width:660px; margin:0 auto; padding:20px 0; border-top: 1px solid #E0DEDC; }
 
-.entry { margin-bottom:20px; }
+.entry { margin-bottom:36px }
 .entry .header { color:#888 }
 .entry:after { content:"●"; font-size:16px; color:#BEBEBE; margin:0 330px; }
+.entry .footer, .entry .footer a { color:#848484 }
+.entry .footer .tags a { margin-left:7px }
 
 .markdown-body { padding:30px; }
 .markdown-body > :first-child { margin-top:0!important; }

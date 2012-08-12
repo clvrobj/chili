@@ -1,8 +1,9 @@
 <%inherit file="/base.html"/>
 
-<%def name="page_title()">张驰</%def>
+<%def name="page_title()">Tag: ${tag} | 张驰</%def>
 
 <%def name="main()">
+<h2>Tag: ${tag}</h2>
 <div id="entries">
   % for e in entries:
   <div class="entry">

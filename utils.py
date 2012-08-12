@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
-from os import listdir
-from os.path import isfile, join
+from os import listdir, makedirs
+from os.path import isfile, join, exists
 import urllib
 import re
 from datetime import datetime
@@ -15,7 +15,7 @@ from flask.ext.mako import render_template
 from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
-    RAWS_DIR, LOCAL_ENTRIES_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
+    RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL
 
 class Dropbox(object):
@@ -79,6 +79,8 @@ class DropboxSync(object):
         else:
             return
         name = path.split('/')[-1]
+        if not exists(dir_path):
+            makedirs(dir_path)
         target = join(dir_path, name)
         if not isfile(target) or len(self.client.revisions(path)) > 1:
             f = self.client.get_file(path)
@@ -131,17 +133,22 @@ class DropboxSync(object):
             return False
         is_comment = meta.get('comment')
         is_comment = is_comment and is_comment[0].lower() == 'yes'
+        tags = meta.get('keywords', [])
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
         l = locals()
         l.pop('self')
         html_content = render_template('entry.html', **l)
         path = urllib.quote_plus(name) + '.html'
+        if not exists(LOCAL_ENTRIES_DIR):
+            makedirs(LOCAL_ENTRIES_DIR)
         gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
         gen.write(html_content)
         gen.close()
         raw.close()
-        return dict(orig_file=file_name, title=title, created_at=created_at, path=path, link=ENTRY_LINK_PATTERN % path, content=content)
+        return dict(orig_file=file_name, title=title, created_at=created_at,
+                    is_comment=is_comment, tags=tags,
+                    path=path, link=ENTRY_LINK_PATTERN % path, content=content)
 
     def gen_home_page(self, files_info):
         entries = []
@@ -151,6 +158,22 @@ class DropboxSync(object):
         l.pop('self')
         gen.write(render_template('home.html', **l))
         gen.close()
+
+    def gen_tag_page(self, files_info):
+        tags = {}
+        for entry in files_info:
+            for tag in entry['tags']:
+                tags.setdefault(tag, [])
+                tags[tag].append(entry)
+        if not exists(LOCAL_TAGS_DIR):
+            makedirs(LOCAL_TAGS_DIR)
+        for tag in tags:
+            entries = tags[tag]
+            gen = open(join(LOCAL_TAGS_DIR, '%s.html' % tag), 'wb')
+            l = locals()
+            l.pop('self')
+            gen.write(render_template('tag.html', **l))
+            gen.close()
 
     def gen_files(self):
         print 'Gen html file now...'
@@ -165,6 +188,7 @@ class DropboxSync(object):
                         print 'Gen %s OK.' % f
             # gen home
             self.gen_home_page(files_info)
+            self.gen_tag_page(files_info)
             self.gen_rss(files_info)
             print 'Gen home page OK.'
             return 'Done!'
