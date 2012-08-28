@@ -32,12 +32,10 @@ DOMAIN_URL = 'http://' + DOMAIN
 DOMAIN_URL2 = 'http://' + DOMAIN2
 
 DROPBOX_ACCOUNT_EMAIL = ''
-
 BLOG_NAME = '博客'
-
 TWITTER_NAME = ''
-
 DISQUS_SHORTNAME = ''
+TRACKING_CODE = ''
 
 try:
     from local_config import *
