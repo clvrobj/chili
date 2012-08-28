@@ -43,7 +43,6 @@ def regen_files():
 
 @app.route('/ops')
 def operations():
-    from config import DOMAIN, BLOG_NAME, TWITTER_NAME
     return render_template('operations.html', **locals())
 
 @app.route('/')

@@ -1,6 +1,6 @@
 <%inherit file="base.html"/>
 
-<%def name="page_title()">${title} | ${BLOG_NAME.decode('utf8')}</%def>
+<%def name="page_title()">${title}</%def>
 
 <%def name="main()">
 <div class="entry">
@@ -32,6 +32,9 @@ ${comments_block()}
 </%def>
 
 <%def name="comments_block()">
+  <%!
+      from config import DISQUS_SHORTNAME
+  %>
   <div id="disqus_thread"></div>
   <script type="text/javascript">
     var disqus_shortname = '${DISQUS_SHORTNAME}';

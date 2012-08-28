@@ -1,6 +1,8 @@
 <%inherit file="/base.html"/>
 
-<%def name="page_title()">张驰</%def>
+<%! from config import BLOG_NAME %>
+
+<%def name="title()">${BLOG_NAME.decode('utf8')}</%def>
 
 <%def name="main()">
 <div id="entries">

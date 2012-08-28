@@ -17,7 +17,7 @@ from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
-    DOMAIN, BLOG_NAME, DISQUS_SHORTNAME
+    BLOG_NAME
 
 class Dropbox(object):
 
@@ -137,7 +137,6 @@ class DropboxSync(object):
         tags = meta.get('keywords', [])
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
-        from config import DOMAIN, BLOG_NAME, TWITTER_NAME, DISQUS_SHORTNAME
         l = locals()
         l.pop('self')
         html_content = render_template('entry.html', **l)
@@ -156,7 +155,6 @@ class DropboxSync(object):
         entries = []
         entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
         gen = open(join(PUBLIC_DIR, 'home.html'), 'wb')
-        from config import DOMAIN, BLOG_NAME, TWITTER_NAME
         l = locals()
         l.pop('self')
         gen.write(render_template('home.html', **l))
@@ -170,7 +168,6 @@ class DropboxSync(object):
                 tags[tag].append(entry)
         if not exists(LOCAL_TAGS_DIR):
             makedirs(LOCAL_TAGS_DIR)
-        from config import DOMAIN, BLOG_NAME, TWITTER_NAME
         for tag in tags:
             entries = tags[tag]
             gen = open(join(LOCAL_TAGS_DIR, '%s.html' % tag), 'wb')
