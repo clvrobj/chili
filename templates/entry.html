@@ -1,6 +1,6 @@
 <%inherit file="base.html"/>
 
-<%def name="page_title()">${title} | 张驰</%def>
+<%def name="page_title()">${title} | ${BLOG_NAME.decode('utf8')}</%def>
 
 <%def name="main()">
 <div class="entry">
@@ -34,7 +34,7 @@ ${comments_block()}
 <%def name="comments_block()">
   <div id="disqus_thread"></div>
   <script type="text/javascript">
-    var disqus_shortname = 'zhangchi';
+    var disqus_shortname = '${DISQUS_SHORTNAME}';
     (function() {
     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
     dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';

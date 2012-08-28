@@ -26,12 +26,18 @@ IMAGE_LINK_PATTERN = '/img/%s'
 
 TIMEZONE = 'Asia/Shanghai'
 
-DOMAIN = 'zhangchi.de'
-DOMAIN2 = 'zhangchi.in'
+DOMAIN = ''
+DOMAIN2 = ''
 DOMAIN_URL = 'http://' + DOMAIN
 DOMAIN_URL2 = 'http://' + DOMAIN2
 
 DROPBOX_ACCOUNT_EMAIL = ''
+
+BLOG_NAME = '博客'
+
+TWITTER_NAME = ''
+
+DISQUS_SHORTNAME = ''
 
 try:
     from local_config import *

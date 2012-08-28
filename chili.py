@@ -43,7 +43,8 @@ def regen_files():
 
 @app.route('/ops')
 def operations():
-    return render_template('operations.html')
+    from config import DOMAIN, BLOG_NAME, TWITTER_NAME
+    return render_template('operations.html', **locals())
 
 @app.route('/')
 def home():
@@ -94,7 +95,6 @@ def login_success():
     try:
         dropbox.login(request_token)
     except ErrorResponse, e:
-        print '=====', e
         return 'login error'
     return redirect('/')
 
@@ -105,7 +105,8 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('page_not_found.html'), 404
+    from config import DOMAIN, BLOG_NAME, TWITTER_NAME
+    return render_template('page_not_found.html', **locals()), 404
 
 
 if __name__ == '__main__':

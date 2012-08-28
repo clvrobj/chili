@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>${self.page_title()}</title>
   <link rel="stylesheet" href="${url_for('static', filename='chili.css')}" />
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed for zhangchi.de" href="/rss.xml" />
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for ${DOMAIN}" href="/rss.xml" />
 </head>
 <body>
   ${self.header()}
@@ -19,7 +19,7 @@
 <%def name="header()">
 <div id="header">
   <div id="header-inner" class="clearfix">
-    <a href="/"><h1>张驰</h1></a>
+    <a href="/"><h1>${BLOG_NAME.decode('utf8')}</h1></a>
   </div>
 </div>
 </%def>
@@ -41,7 +41,7 @@
 <%def name="footer()">
 <div id="footer">
   <div id="footer-inner">
-    2012 © zhangchi.de <a href="https://twitter.com/#!/ClvrObj" target="_blank">@clvrobj</a>
+    2012 © ${DOMAIN} <a href="https://twitter.com/#!/${TWITTER_NAME}" target="_blank">@${TWITTER_NAME}</a>
   </div>
 </div>
 </%def>

@@ -16,7 +16,8 @@ from dropbox import client, rest, session
 from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
-    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL
+    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
+    DOMAIN, BLOG_NAME, DISQUS_SHORTNAME
 
 class Dropbox(object):
 
@@ -136,6 +137,7 @@ class DropboxSync(object):
         tags = meta.get('keywords', [])
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
+        from config import DOMAIN, BLOG_NAME, TWITTER_NAME, DISQUS_SHORTNAME
         l = locals()
         l.pop('self')
         html_content = render_template('entry.html', **l)
@@ -154,6 +156,7 @@ class DropboxSync(object):
         entries = []
         entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
         gen = open(join(PUBLIC_DIR, 'home.html'), 'wb')
+        from config import DOMAIN, BLOG_NAME, TWITTER_NAME
         l = locals()
         l.pop('self')
         gen.write(render_template('home.html', **l))
@@ -167,6 +170,7 @@ class DropboxSync(object):
                 tags[tag].append(entry)
         if not exists(LOCAL_TAGS_DIR):
             makedirs(LOCAL_TAGS_DIR)
+        from config import DOMAIN, BLOG_NAME, TWITTER_NAME
         for tag in tags:
             entries = tags[tag]
             gen = open(join(LOCAL_TAGS_DIR, '%s.html' % tag), 'wb')
@@ -201,13 +205,14 @@ class DropboxSync(object):
         entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
         for f in entries:
             link = DOMAIN_URL + f['link']
-            desc = re.sub(r'src="/', 'src="http://zhangchi.de/', f['content'])
+            # replace relative url to absolute url
+            desc = re.sub(r'src="/', 'src="%s/' % DOMAIN_URL, f['content'])
             items.append(PyRSS2Gen.RSSItem(link=link, title=f['title'],
                                            description=desc,
                                            pubDate=f['created_at'],
                                            guid = PyRSS2Gen.Guid(link)))
 
-        rss = PyRSS2Gen.RSS2(title='张驰', link='http://zhangchi.de',
+        rss = PyRSS2Gen.RSS2(title=BLOG_NAME, link=DOMAIN_URL,
                              description='', lastBuildDate = datetime.now(),
                              items=items)
         rss.write_xml(open(join(PUBLIC_DIR, 'rss.xml'), 'w'))
