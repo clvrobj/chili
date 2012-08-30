@@ -1,4 +1,4 @@
-body { font-size:13px; font-family:Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
+body { font-size:13px; font-family:'Helvetica Neue', 'Hiragino Sans GB', Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
 body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
@@ -21,7 +21,7 @@ a:hover { color: #205f80; text-decoration: none; }
 
 .entry { margin-bottom:36px }
 .entry .header { color:#888 }
-.entry:after { content:"●"; font-size:16px; color:#BEBEBE; margin:0 330px; }
+.entry:after { content:"●"; font-size:14px; color:#BEBEBE; margin:0 330px; text-shadow: 0 1px 0 white }
 .entry .footer, .entry .footer a { color:#848484 }
 .entry .footer .tags a { margin-left:7px }
 
