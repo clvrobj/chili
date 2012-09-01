@@ -13,6 +13,7 @@
   ${self.header()}
   ${self.content()}
   ${self.footer()}
+  ${self.bottom_script()}
   ${self.tracking()}
 </body>
 </html>
@@ -53,3 +54,5 @@
 <%def name="tracking()">
 ${TRACKING_CODE if TRACKING_CODE else ''}
 </%def>
+
+<%def name="bottom_script()"></%def>

@@ -1,7 +1,7 @@
-body { font-size:13px; font-family:'Helvetica Neue', 'Hiragino Sans GB', Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; background-color:#FFFFFD }
+body { font-size:14px; font-family:'Helvetica Neue', 'Hiragino Sans GB', Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; color:#777 }
 body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
-h1 { word-wrap:break-word; display:block; font-size:25px; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
+h1 { word-wrap:break-word; display:block; font-size:2em; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
 h2, h3 { font-size:17px; color:#A2122F; margin:0 0 7px; }
 ul, ol { list-style-type:none; display:block; margin:0 }
 a:link, a:visited { color: #4083A8; text-decoration: none; }
@@ -21,9 +21,12 @@ a:hover { color: #205f80; text-decoration: none; }
 
 .entry { margin-bottom:36px }
 .entry .header { color:#888 }
+.entry .header h1 { font-size:1.8em; font-weight:normal; color:#A2122F }
 .entry:after { content:"●"; font-size:14px; color:#BEBEBE; margin:0 330px; text-shadow: 0 1px 0 white }
 .entry .footer, .entry .footer a { color:#848484 }
+.entry .footer .tags { float:left }
 .entry .footer .tags a { margin-left:7px }
+.entry .footer .comments-count { float:right }
 
 .markdown-body { padding:30px; }
 .markdown-body > :first-child { margin-top:0!important; }
@@ -40,3 +43,4 @@ a:hover { color: #205f80; text-decoration: none; }
 .markdown-body pre > code { margin:0; padding: 0; white-space:pre; border:none; background:transparent }
 .markdown-body img { max-width:100% }
 .markdown-body .photo { background:none; border:none; color:transparent }
+.markdown-body .center { text-align: center }

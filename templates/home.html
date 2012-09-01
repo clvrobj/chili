@@ -9,7 +9,7 @@
   % for e in entries:
   <div class="entry">
     <div class="header">
-      <h2><a href="${e['link']}">${e['title']}</a></h2>
+      <h1><a href="${e['link']}">${e['title']}</a></h1>
       <div class="created-time">${e['created_at']}</div>
     </div>
     <div class="markdown-body">
@@ -18,6 +18,11 @@
     <div class="footer">
       % if e['tags']:
       ${tags_block(e['tags'])}
+      % endif
+      % if e['is_comment']:
+      <div class="comments-count">
+        <a href="${e['link']}#disqus_thread">comments</a>
+      </div>
       % endif
     </div>
   </div>
@@ -32,4 +37,19 @@
     <a href="/tag/${tag}.html">${tag}</a>
     % endfor
   </div>
+</%def>
+
+<%def name="bottom_script()">
+<script type="text/javascript">
+  <%!
+      from config import DISQUS_SHORTNAME
+  %>
+  var disqus_shortname = '${DISQUS_SHORTNAME}';
+  (function () {
+  var s = document.createElement('script'); s.async = true;
+  s.type = 'text/javascript';
+  s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  }());
+</script>
 </%def>
