@@ -19,7 +19,7 @@ a:hover { color: #205f80; text-decoration: none; }
 #footer { min-height:100%; }
 #footer-inner { width:660px; margin:0 auto; padding:20px 0; border-top: 1px solid #E0DEDC; }
 
-.entry { margin-bottom:36px }
+.entry { margin-bottom:56px }
 .entry .header { color:#888 }
 .entry .header h1 { font-size:1.8em; font-weight:normal; color:#A2122F }
 .entry:after { content:"●"; font-size:14px; color:#BEBEBE; margin:0 330px; text-shadow: 0 1px 0 white }
