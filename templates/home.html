@@ -15,7 +15,7 @@
     <div class="markdown-body">
       ${e['content'] | n}
     </div>
-    <div class="footer">
+    <div class="footer clearfix">
       % if e['tags']:
       ${tags_block(e['tags'])}
       % endif
@@ -25,6 +25,7 @@
       </div>
       % endif
     </div>
+    <div class="fin">●</div>
   </div>
   % endfor
 </div>
