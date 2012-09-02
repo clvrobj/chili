@@ -2,33 +2,28 @@
 
 <%def name="page_title()">Tag: ${tag}</%def>
 
+<%namespace name="home" file="home.html"/>
+
 <%def name="main()">
-<h2>Tag: ${tag}</h2>
+<h1>Tag: ${tag}</h1>
 <div id="entries">
   % for e in entries:
-  <div class="entry">
-    <div class="header">
-      <h2><a href="${e['link']}">${e['title']}</a></h2>
-      <div class="created-time">${e['created_at']}</div>
-    </div>
-    <div class="markdown-body">
-      ${e['content'] | n}
-    </div>
-    <div class="footer">
-      % if e['tags']:
-      ${tags_block(e['tags'])}
-      % endif
-    </div>
-  </div>
+  ${home.entry(e)}
   % endfor
 </div>
 </%def>
 
-<%def name="tags_block(tags=[])">
-  <div class="tags">
-    Tags:
-    % for tag in tags:
-    <a href="/tag/${tag}.html">${tag}</a>
-    % endfor
-  </div>
+<%def name="bottom_script()">
+<script type="text/javascript">
+  <%!
+      from config import DISQUS_SHORTNAME
+  %>
+  var disqus_shortname = '${DISQUS_SHORTNAME}';
+  (function () {
+  var s = document.createElement('script'); s.async = true;
+  s.type = 'text/javascript';
+  s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+  (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  }());
+</script>
 </%def>

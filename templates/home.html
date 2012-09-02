@@ -4,9 +4,7 @@
 
 <%def name="title()">${BLOG_NAME.decode('utf8')}</%def>
 
-<%def name="main()">
-<div id="entries">
-  % for e in entries:
+<%def name="entry(e)">
   <div class="entry">
     <div class="header">
       <h1><a href="${e['link']}">${e['title']}</a></h1>
@@ -27,6 +25,12 @@
     </div>
     <div class="fin">●</div>
   </div>
+</%def>
+
+<%def name="main()">
+<div id="entries">
+  % for e in entries:
+  ${self.entry(e)}
   % endfor
 </div>
 </%def>
