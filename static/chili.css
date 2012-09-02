@@ -28,7 +28,7 @@ a:hover { color: #205f80; text-decoration: none; }
 .entry .footer .tags a { margin-left:7px }
 .entry .footer .comments-count { float:right }
 
-.markdown-body { padding:30px; }
+.markdown-body { padding:30px 0; }
 .markdown-body > :first-child { margin-top:0!important; }
 .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6
 { margin:20px 0 10px; padding:0; font-weight:bold; -webkit-font-smoothing:antialiased; cursor:text; position:relative; }
