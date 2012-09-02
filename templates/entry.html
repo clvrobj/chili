@@ -11,11 +11,12 @@
   <div class="markdown-body">
     ${content | n}
   </div>
-  <div class="footer">
+  <div class="footer clearfix">
     % if tags:
     ${tags_block(tags)}
     % endif
   </div>
+  <div class="fin">●</div>
 </div>
 % if is_comment:
 ${comments_block()}

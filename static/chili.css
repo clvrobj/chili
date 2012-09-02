@@ -19,7 +19,7 @@ a:hover { color: #205f80; text-decoration: none; }
 #footer { min-height:100%; }
 #footer-inner { padding:20px 0; border-top: 1px solid #E0DEDC; }
 
-.entry { margin-bottom:56px }
+.entry { margin-bottom:52px }
 .entry .header { color:#888 }
 .entry .header h1 { font-size:1.8em; font-weight:normal; color:#A2122F }
 .entry .footer, .entry .footer a { color:#848484 }
