@@ -1,5 +1,5 @@
-body { font-size:14px; font-family:'Helvetica Neue', 'Hiragino Sans GB', Arial, Helvetica, sans-serif; margin:0; padding:0; line-height: 1.6; color:#777 }
-body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
+body { font-size:14px; font-family:'Helvetica Neue', 'Hiragino Sans GB', Arial, Helvetica, sans-serif; max-width:47em; margin:0 auto; padding:0; line-height: 1.6; color:#777 }
+div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, input, button, textarea { margin: 0; padding: 0 }
 h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:2em; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
 h2, h3 { font-size:17px; color:#A2122F; margin:0 0 7px; }
@@ -10,14 +10,14 @@ a:hover { color: #205f80; text-decoration: none; }
 .clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 #header { }
-#header-inner { width:660px; margin:0 auto; padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
+#header-inner { padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
 #header h1 { margin:0; padding:0; }
 #wrap {  padding:20px 0;  }
-#content { width:660px; margin:0 auto; }
+#content { }
 #main { float:left; width:100%; }
 #aside { float:right; width:230px; }
 #footer { min-height:100%; }
-#footer-inner { width:660px; margin:0 auto; padding:20px 0; border-top: 1px solid #E0DEDC; }
+#footer-inner { padding:20px 0; border-top: 1px solid #E0DEDC; }
 
 .entry { margin-bottom:56px }
 .entry .header { color:#888 }
