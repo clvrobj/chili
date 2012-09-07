@@ -19,51 +19,6 @@ from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
     BLOG_NAME
 
-class Dropbox(object):
-
-    @property
-    def is_authenticated(self):
-        return DROPBOX_ACCESS_TOKEN_KEY in flask_session
-
-    @cached_property
-    def session(self):
-        return session.DropboxSession(DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE)
-
-    @property
-    def request_token(self):
-        token = self.session.obtain_request_token()
-        flask_session[DROPBOX_REQUEST_TOKEN_KEY] = {'key':token.key, 'secret':token.secret}
-        return token
-
-    @property
-    def login_url(self):
-        return self.session.build_authorize_url(self.request_token, oauth_callback='%slogin_success' % request.host_url)
-
-    def login(self, request_token):
-        self.session.set_request_token(request_token['key'], request_token['secret'])
-        access_token = self.session.obtain_access_token(self.session.request_token)
-        flask_session[DROPBOX_ACCESS_TOKEN_KEY] = {'key':access_token.key, 'secret':access_token.secret}
-
-        c = client.DropboxClient(self.session)
-        print "linked account:", c.account_info()
-    
-        # Remove available request token
-        del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
-
-        if DROPBOX_ACCOUNT_EMAIL != c.account_info().get('email'):
-            # owner account is wrong should not login
-            self.logout()
-
-    def logout(self):
-        if DROPBOX_ACCESS_TOKEN_KEY in flask_session:
-            del flask_session[DROPBOX_ACCESS_TOKEN_KEY]
-
-    @property
-    def client(self):
-        access_token = flask_session[DROPBOX_ACCESS_TOKEN_KEY]
-        self.session.set_token(access_token['key'], access_token['secret'])
-        return client.DropboxClient(self.session)
-
 
 class DropboxSync(object):
     
@@ -213,3 +168,49 @@ class DropboxSync(object):
                              description='', lastBuildDate = datetime.now(),
                              items=items)
         rss.write_xml(open(join(PUBLIC_DIR, 'rss.xml'), 'w'))
+
+
+class Dropbox(object):
+
+    @property
+    def is_authenticated(self):
+        return DROPBOX_ACCESS_TOKEN_KEY in flask_session
+
+    @cached_property
+    def session(self):
+        return session.DropboxSession(DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE)
+
+    @property
+    def request_token(self):
+        token = self.session.obtain_request_token()
+        flask_session[DROPBOX_REQUEST_TOKEN_KEY] = {'key':token.key, 'secret':token.secret}
+        return token
+
+    @property
+    def login_url(self):
+        return self.session.build_authorize_url(self.request_token, oauth_callback='%slogin_success' % request.host_url)
+
+    def login(self, request_token):
+        self.session.set_request_token(request_token['key'], request_token['secret'])
+        access_token = self.session.obtain_access_token(self.session.request_token)
+        flask_session[DROPBOX_ACCESS_TOKEN_KEY] = {'key':access_token.key, 'secret':access_token.secret}
+
+        c = client.DropboxClient(self.session)
+        print "linked account:", c.account_info()
+    
+        # Remove available request token
+        del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
+
+        if DROPBOX_ACCOUNT_EMAIL != c.account_info().get('email'):
+            # owner account is wrong should not login
+            self.logout()
+
+    def logout(self):
+        if DROPBOX_ACCESS_TOKEN_KEY in flask_session:
+            del flask_session[DROPBOX_ACCESS_TOKEN_KEY]
+
+    @property
+    def client(self):
+        access_token = flask_session[DROPBOX_ACCESS_TOKEN_KEY]
+        self.session.set_token(access_token['key'], access_token['secret'])
+        return client.DropboxClient(self.session)
