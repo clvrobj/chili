@@ -10,7 +10,7 @@ from config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KE
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
 mako = MakoTemplates(app)
-mako.init_app(app)
+# mako.init_app(app)
 app.secret_key = APP_SECRET_KEY
 app.debug = True
 dropbox = Dropbox()
