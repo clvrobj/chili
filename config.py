@@ -23,6 +23,9 @@ OLD_ENTRY_LINK_PATTERN = '/entry/%s' # not in used
 ENTRY_LINK_PATTERN = '/post/%s'
 TAG_LINK_PATTERN = '/tag/%s'
 IMAGE_LINK_PATTERN = '/img/%s'
+PAGE_LINK_PATTERN = '/page/%s'
+
+PAGE_POSTS_COUNT = 5
 
 TIMEZONE = 'Asia/Shanghai'
 

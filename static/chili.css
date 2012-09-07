@@ -28,6 +28,8 @@ a:hover { color: #205f80; text-decoration: none; }
 .entry .footer .comments-count { float:right }
 .entry .fin { font-size:14px; color:#F4F4F4; text-shadow: 0 1px 0 white; margin-top:1em; text-align:center }
 
+.pagination .next { float:right }
+
 .markdown-body { padding:20px 0; }
 .markdown-body > :first-child { margin-top:0!important; }
 .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6

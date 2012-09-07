@@ -1,8 +1,17 @@
 <%inherit file="/base.html"/>
 
-<%! from config import BLOG_NAME %>
+<%! from config import BLOG_NAME, PAGE_LINK_PATTERN %>
 
 <%def name="title()">${BLOG_NAME.decode('utf8')}</%def>
+
+<%def name="main()">
+<div id="entries">
+  % for e in entries:
+  ${self.entry(e)}
+  % endfor
+</div>
+${self.pagination()}
+</%def>
 
 <%def name="entry(e)">
   <div class="entry">
@@ -27,14 +36,6 @@
   </div>
 </%def>
 
-<%def name="main()">
-<div id="entries">
-  % for e in entries:
-  ${self.entry(e)}
-  % endfor
-</div>
-</%def>
-
 <%def name="tags_block(tags=[])">
   <div class="tags">
     Tags:
@@ -42,6 +43,21 @@
     <a href="/tag/${tag}.html">${tag}</a>
     % endfor
   </div>
+</%def>
+
+<%def name="pagination()">
+<div class="pagination">
+  % if prev_page_id:
+  <a class="prev" href="${PAGE_LINK_PATTERN % prev_page_id}">Older</a>
+  % endif
+  % if next_page_id:
+  % if next_page_id == 1:
+  <a class="next" href="/">Newer</a>
+  % else:
+  <a class="next" href="${PAGE_LINK_PATTERN % next_page_id}">Newer</a>
+  % endif
+  % endif
+</div>
 </%def>
 
 <%def name="bottom_script()">

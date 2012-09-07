@@ -17,7 +17,7 @@ from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
-    BLOG_NAME
+    BLOG_NAME, PAGE_POSTS_COUNT
 
 
 class DropboxSync(object):
@@ -107,13 +107,24 @@ class DropboxSync(object):
                     path=path, link=ENTRY_LINK_PATTERN % path, content=content)
 
     def gen_home_page(self, files_info):
-        entries = []
-        entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
-        gen = open(join(PUBLIC_DIR, 'home.html'), 'wb')
-        l = locals()
-        l.pop('self')
-        gen.write(render_template('home.html', **l))
-        gen.close()
+
+        def chunks(l, n):
+            for i in xrange(0, len(l), n):
+                yield (i+1)/n + 1, l[i:i+n]
+
+        all_entries = []
+        all_entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
+        pages = list(chunks(all_entries, PAGE_POSTS_COUNT))
+        prev_page_id = 0
+        next_page_id = 0
+        for i, entries in pages:
+            next_page_id = i - 1 if i - 1 >= 0 else 0
+            prev_page_id = i + 1 if i + 1 <= len(pages) else 0
+            gen = open(join(PUBLIC_DIR, 'home-%s.html' % i), 'wb')
+            l = locals()
+            l.pop('self')
+            gen.write(render_template('home.html', **l))
+            gen.close()
 
     def gen_tag_page(self, files_info):
         tags = {}
