@@ -48,13 +48,13 @@ ${self.pagination()}
 <%def name="pagination()">
 <div class="pagination">
   % if prev_page_id:
-  <a class="prev" href="${PAGE_LINK_PATTERN % prev_page_id}">Older</a>
+  <a class="prev" href="${PAGE_LINK_PATTERN % prev_page_id}">...Older</a>
   % endif
   % if next_page_id:
   % if next_page_id == 1:
-  <a class="next" href="/">Newer</a>
+  <a class="next" href="/">Newer...</a>
   % else:
-  <a class="next" href="${PAGE_LINK_PATTERN % next_page_id}">Newer</a>
+  <a class="next" href="${PAGE_LINK_PATTERN % next_page_id}">Newer...</a>
   % endif
   % endif
 </div>
