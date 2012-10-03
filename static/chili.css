@@ -4,14 +4,14 @@ h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal; }
 h1 { word-wrap:break-word; display:block; font-size:2em; font-weight:bold; color:#494949; margin:0; padding:0 0 15px 0; line-height:1.1; }
 h2, h3 { font-size:17px; color:#A2122F; margin:0 0 7px; }
 ul, ol { list-style-type:none; display:block; margin:0 }
-a:link, a:visited { color: #4083A8; text-decoration: none; }
+a:link, a:visited { color: #4083A8; text-decoration: none; word-wrap:break-word; word-break:normal; }
 a:hover { color: #205f80; text-decoration: none; }
 ::selection { background:#F6810B; color:white; text-shadow:none }
 .clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 #header { }
 #header-inner { padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
-#header h1 { margin:0; padding:0; }
+#header h1 { margin:0; padding:0; color:#999; }
 #wrap {  padding:36px 0;  }
 #content { }
 #main { float:left; width:100%; }
@@ -22,6 +22,7 @@ a:hover { color: #205f80; text-decoration: none; }
 .entry { margin-bottom:52px }
 .entry .header { color:#888 }
 .entry .header h1 { font-size:1.8em; font-weight:normal; color:#A2122F }
+.entry .footer { text-align:right; }
 .entry .footer, .entry .footer a { color:#848484 }
 .entry .footer .tags { float:left }
 .entry .footer .tags a { margin-left:7px }
@@ -44,7 +45,7 @@ a:hover { color: #205f80; text-decoration: none; }
 
 .markdown-body ul li { line-height:1.6; }
 .markdown-body .highlight pre, .markdown-body pre { background-color:#F8F8F8; border:1px solid #CCC; line-height:19px; overflow:auto; padding:6px 10px; border-radius:3px }
-.markdown-body code, .markdown-body tt { margin:0 2px; padding:0 5px; white-space:nowrap; border:1px solid #EAEAEA; background-color:#F8F8F8; border-radius:3px }
+.markdown-body code, .markdown-body tt { margin:0 2px; padding:0 5px; white-space:pre; word-wrap:break-word; word-break:normal; border:1px solid #EAEAEA; background-color:#F8F8F8; border-radius:3px }
 .markdown-body pre > code { margin:0; padding: 0; white-space:pre; border:none; background:transparent }
 .markdown-body img { max-width:100% }
 .markdown-body .photo { background:none; border:none; color:transparent }
