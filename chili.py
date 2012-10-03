@@ -42,9 +42,9 @@ def regen_files():
     else:
         print 'Can not auth to dropbox'
 
-@app.route('/ops')
-def operations():
-    return render_template('operations.html', **locals())
+@app.route('/tools')
+def tools():
+    return render_template('tools.html', **locals())
 
 @app.route('/')
 def home():
