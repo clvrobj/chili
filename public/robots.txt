@@ -3,5 +3,5 @@ Disallow: /sync
 Disallow: /login
 Disallow: /logout
 Disallow: /regen
-Disallow: /ops
+Disallow: /tools
 Disallow: /login_success
