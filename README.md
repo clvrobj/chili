@@ -6,7 +6,7 @@ Dependency:
 * Flask-Mako, for templating support
 * Dropbox SDK
 * pytz
-* markdown
+* markdown, for supporting Markdown
 * PyRSS2Gen, to generate RSS feeds
 
 [zhangchi.de blog](http://zhangchi.de/)
