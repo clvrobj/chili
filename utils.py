@@ -4,8 +4,7 @@ from os.path import isfile, join, exists
 import urllib
 import re
 from datetime import datetime
-from dateutil import parser
-from pytz import timezone
+import pytz
 from operator import itemgetter
 import markdown
 from werkzeug.utils import cached_property
@@ -76,7 +75,9 @@ class DropboxSync(object):
         meta = self.client.metadata(path)
         if not meta['is_dir'] and path.split('.')[-1] == RAW_ENTRY_FILE_FORMAT:
             first = self.client.revisions(path)[-1]
-            return format_time_str(parser.parse(first['modified']).astimezone(timezone(TIMEZONE)))
+            # modified date format: 'Thu, 25 Aug 2011 00:03:15 +0000'
+            modified = datetime.strptime(first['modified'][:-6], '%a, %d %b %Y %H:%M:%S')
+            return format_time_str(modified.replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(TIMEZONE)))
 
     def gen_entry_page(self, file_name):
         name = file_name.rstrip('.md')
