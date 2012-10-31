@@ -123,7 +123,7 @@ class DropboxSync(object):
         gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
         gen.write(html_content)
         gen.close()
-        print 'Gen %s OK.' % title
+        print 'Gen %s OK.' % file_name
 
     def gen_home_page(self, files_info):
 
