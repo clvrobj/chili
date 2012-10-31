@@ -16,10 +16,10 @@ Chili is a Dropbox powered static site generator.
 
 ## Dropbox configuration
 * [Create an app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you.
-* in `~user/Dropbox/Apps/Chili` directory, write articles and save with `.md` suffix.
+* In your dropbox folder `~user/Dropbox/Apps/Chili`, write articles in Markdown and save with `.md` suffix.
 
 ## Settings
-`config.py` is to config Chili, but it's better to create a new file `local_config.py`, it will overwrite the settings in `config,py`.
+`config.py` is to config Chili, but it's better to create a new file `local_config.py`, it can overwrite the settings in `config,py`.
 
 * `DROPBOX_APP_KEY`: `App key` of your app in Dropbox
 * `DROPBOX_APP_SECRET`: `App secret` of your app in Dropbox
@@ -59,4 +59,4 @@ Example:
 
 
 # Sample
-[zhangchi.de blog](http://zhangchi.de/)
+My personal blog in Chinese: [http://zhangchi.de/](http://zhangchi.de/)
