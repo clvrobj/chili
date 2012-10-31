@@ -27,9 +27,11 @@ a:hover { color: #205f80; text-decoration: none; }
 .entry .footer, .entry .footer a { color:#848484 }
 .entry .footer .tags { float:left }
 .entry .footer .tags a { margin-left:7px }
+.entry .footer .prev-next { float:left; text-align:left; margin-top:1em }
 .entry .footer .comments-count { float:right }
 .entry .fin { font-size:14px; color:#F4F4F4; text-shadow: 0 1px 0 white; margin-top:1em; text-align:center }
 
+.pagination { font-weight:bold }
 .pagination .next { float:right }
 
 .markdown-body { padding:20px 0; }

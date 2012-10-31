@@ -18,6 +18,18 @@
     <div class="share-block">
       <a href="https://twitter.com/share" class="twitter-share-button" data-dnt="true" data-count="none">Tweet</a>
     </div>
+    <div class="prev-next">
+      % if prev_link:
+      <div class="prev">
+        <strong>Previous:</strong> <a href="${prev_link}">${prev_title}</a>
+      </div>
+      % endif
+      % if next_link:
+      <div class="next">
+        <strong>Next:</strong> <a href="${next_link}">${next_title}</a>
+      </div>
+      % endif
+    </div>
   </div>
   <div class="fin">●</div>
 </div>

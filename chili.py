@@ -26,18 +26,18 @@ def sync():
     if client:
         sync = DropboxSync(client)
         sync.sync_folder()
-        return sync.gen_files() + ' <a href="/">Back to home</a>'
+        return sync.gen_pages() + ' <a href="/">Back to home</a>'
     else:
         print 'Can not auth to dropbox'
 
 @app.route('/regen')
-def regen_files():
+def regen_pages():
     if not dropbox.is_authenticated:
         return redirect('/login')
 
     client = dropbox.client
     if client:
-        DropboxSync(client).gen_files()
+        DropboxSync(client).gen_pages()
         return redirect('/')
     else:
         print 'Can not auth to dropbox'

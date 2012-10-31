@@ -20,7 +20,7 @@ from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
 
 
 class DropboxSync(object):
-    
+
     def __init__(self, client):
         self.client = client
 
@@ -79,12 +79,13 @@ class DropboxSync(object):
             modified = datetime.strptime(first['modified'][:-6], '%a, %d %b %Y %H:%M:%S')
             return format_time_str(modified.replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(TIMEZONE)))
 
-    def gen_entry_page(self, file_name):
+    def get_file_info(self, file_name):
         name = file_name.rstrip('.md')
         raw = open(join(RAWS_DIR, file_name), 'r')
         md = markdown.Markdown(extensions=['meta'])
         content = md.convert(raw.read().decode('utf8'))
         meta = md.Meta
+        raw.close()
         is_public = meta.get('public')
         if is_public and is_public[0].lower() == 'no':
             return False
@@ -93,6 +94,26 @@ class DropboxSync(object):
         tags = meta.get('keywords', [])
         title = meta.get('title', [''])[0] or name
         created_at = meta.get('date', [''])[0] or self.get_file_created_at('/%s' % file_name)
+        path = urllib.quote_plus(name) + '.html'
+        return dict(orig_file=file_name, title=title, created_at=created_at,
+                    is_comment=is_comment, tags=tags, file_name=name,
+                    path=path, link=ENTRY_LINK_PATTERN % path, content=content)
+
+    def gen_entry_page(self, file_info, prev_file=None, next_file=None):
+        is_public = file_info.get('public')
+        if is_public and is_public[0].lower() == 'no':
+            return False
+        name = file_info.get('file_name')
+        title = file_info.get('title')
+        content = file_info.get('content')
+        tags = file_info.get('tags')
+        created_at = file_info.get('created_at')
+        if prev_file:
+            prev_title = prev_file.get('title')
+            prev_link = prev_file.get('link')
+        if next_file:
+            next_title = next_file.get('title')
+            next_link = next_file.get('link')
         l = locals()
         l.pop('self')
         html_content = render_template('entry.html', **l)
@@ -102,10 +123,7 @@ class DropboxSync(object):
         gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
         gen.write(html_content)
         gen.close()
-        raw.close()
-        return dict(orig_file=file_name, title=title, created_at=created_at,
-                    is_comment=is_comment, tags=tags,
-                    path=path, link=ENTRY_LINK_PATTERN % path, content=content)
+        print 'Gen %s OK.' % title
 
     def gen_home_page(self, files_info):
 
@@ -113,9 +131,7 @@ class DropboxSync(object):
             for i in xrange(0, len(l), n):
                 yield (i+1)/n + 1, l[i:i+n]
 
-        all_entries = []
-        all_entries = sorted(files_info, key=itemgetter('created_at'), reverse=True)
-        pages = list(chunks(all_entries, PAGE_POSTS_COUNT))
+        pages = list(chunks(files_info, PAGE_POSTS_COUNT))
         prev_page_id = 0
         next_page_id = 0
         for i, entries in pages:
@@ -126,6 +142,7 @@ class DropboxSync(object):
             l.pop('self')
             gen.write(render_template('home.html', **l))
             gen.close()
+        print 'Gen home page OK.'
 
     def gen_tag_page(self, files_info):
         tags = {}
@@ -143,22 +160,24 @@ class DropboxSync(object):
             gen.write(render_template('tag.html', **l))
             gen.close()
 
-    def gen_files(self):
+    def gen_pages(self):
         print 'Gen html file now...'
         try:
             dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
+            fs = [f for f in listdir(RAWS_DIR) if isfile(join(RAWS_DIR, f)) and f.endswith('.md') and f in dropbox_files]
             files_info = []
-            for f in listdir(RAWS_DIR):
-                if isfile(join(RAWS_DIR, f)) and f.endswith('.md') and f in dropbox_files:
-                    info = self.gen_entry_page(f)
-                    if info:
-                        files_info.append(info)
-                        print 'Gen %s OK.' % f
-            # gen home
+            for f in fs:
+                info = self.get_file_info(f)
+                if info:
+                    files_info.append(info)
+            files_info = sorted(files_info, key=itemgetter('created_at'), reverse=True)
+            for i, file_info in enumerate(files_info):
+                prev = files_info[i+1] if i < len(files_info) - 1 else None
+                next = files_info[i-1] if i > 0 else None
+                self.gen_entry_page(file_info, prev_file=prev, next_file=next)
             self.gen_home_page(files_info)
             self.gen_tag_page(files_info)
             self.gen_rss(files_info)
-            print 'Gen home page OK.'
             return 'Done!'
         except OSError:
             return 'Woops! File operations error ...'
