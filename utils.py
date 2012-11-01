@@ -108,6 +108,7 @@ class DropboxSync(object):
         content = file_info.get('content')
         tags = file_info.get('tags')
         created_at = file_info.get('created_at')
+        is_comment = file_info.get('is_comment')
         if prev_file:
             prev_title = prev_file.get('title')
             prev_link = prev_file.get('link')

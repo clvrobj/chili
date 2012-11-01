@@ -40,7 +40,7 @@ ${comments_block()}
 
 <%def name="tags_block(tags=[])">
   <div class="tags">
-    Tags:
+    <strong>Tags:</strong>
     % for tag in tags:
     <a href="/tag/${tag}.html">${tag}</a>
     % endfor
