@@ -1,5 +1,6 @@
 <%!
     from config import DOMAIN, BLOG_NAME, TWITTER_NAME, TRACKING_CODE
+    from datetime import datetime
 %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -47,7 +48,7 @@
 <%def name="footer()">
 <div id="footer">
   <div id="footer-inner">
-    2012 © ${DOMAIN} <a href="https://twitter.com/#!/${TWITTER_NAME}" target="_blank">@${TWITTER_NAME}</a>
+    ${datetime.now().year} © ${DOMAIN} <a href="http://twitter.com/${TWITTER_NAME}" target="_blank">@${TWITTER_NAME}</a>
   </div>
 </div>
 </%def>
