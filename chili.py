@@ -4,7 +4,7 @@ from flask.ext.mako import MakoTemplates, render_template
 from dropbox.rest import ErrorResponse
 from utils import Dropbox, DropboxSync
 from config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY,\
-    OLD_ENTRY_LINK_PATTERN, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, TAG_LINK_PATTERN,\
+    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, TAG_LINK_PATTERN,\
     PUBLIC_DIR, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, LOCAL_TAGS_DIR, DOMAIN, DOMAIN2,\
     PAGE_LINK_PATTERN
 
@@ -53,10 +53,6 @@ def home():
 @app.route(PAGE_LINK_PATTERN % '<path:page_id>')
 def page(page_id):
     return send_from_directory(PUBLIC_DIR, 'home-%s.html' % page_id)
-
-@app.route(OLD_ENTRY_LINK_PATTERN % '<path:filename>')
-def entry(filename):
-    return redirect(ENTRY_LINK_PATTERN % filename)
 
 @app.route(ENTRY_LINK_PATTERN % '<path:filename>')
 def post(filename):
