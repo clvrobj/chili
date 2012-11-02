@@ -1,8 +1,8 @@
 #!/bin/bash
 
-PIDFILE="./flaskapp.pid"
-ERRLOG="./flaskerr.log"
-OUTLOG="./flaskout.log"
+PIDFILE="./app.pid"
+ERRLOG="./err.log"
+OUTLOG="./out.log"
 
 if [ -f $PIDFILE ]; then
     kill `cat -- $PIDFILE`
