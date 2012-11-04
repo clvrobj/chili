@@ -8,6 +8,7 @@ Chili is a Dropbox powered static site generator.
 ## Dependencies
 * [Flask](http://flask.pocoo.org/), chili is based on Flask framework
 * [Flask-Mako](http://packages.python.org/Flask-Mako/), for templating support
+* [Flask-Actions](http://packages.python.org/Flask-Actions/)
 * [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
 * [Markdown](http://pypi.python.org/pypi/Markdown), for supporting Markdown
 * [PyRSS2Gen](http://pypi.python.org/pypi/PyRSS2Gen), to generate RSS feeds
@@ -15,7 +16,7 @@ Chili is a Dropbox powered static site generator.
 # How to Start
 
 ## Dropbox configuration
-* [Create an app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you.
+* [Create an Dropbox app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you.
 * In your dropbox folder `~user/Dropbox/Apps/Chili`, write articles in Markdown and save with `.md` suffix.
 
 ## Settings
