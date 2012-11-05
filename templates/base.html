@@ -48,7 +48,10 @@
 <%def name="footer()">
 <div id="footer">
   <div id="footer-inner">
-    ${datetime.now().year} © ${DOMAIN} <a href="http://twitter.com/${TWITTER_NAME}" target="_blank">@${TWITTER_NAME}</a>
+    ${datetime.now().year} © ${DOMAIN}
+    % if TWITTER_NAME:
+    <a href="http://twitter.com/${TWITTER_NAME}" target="_blank">@${TWITTER_NAME}</a>
+    % endif
   </div>
 </div>
 </%def>
