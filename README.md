@@ -1,26 +1,24 @@
 Chili
 =====
-Chili is a Dropbox powered static site generator.
+Dropbox powered static site generator.
 
 # Install
 `git clone git@github.com:clvrobj/chili.git`
 
 ## Dependencies
-* [Flask](http://flask.pocoo.org/) - chili is based on Flask framework
+* [Flask](http://flask.pocoo.org/) - Chili is based on Flask framework
 * [Flask-Mako](http://packages.python.org/Flask-Mako/) - for Mako templating support
 * [Flask-Actions](http://packages.python.org/Flask-Actions/) - for running fastcgi daemon on server
 * [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
 * [Markdown](http://pypi.python.org/pypi/Markdown) - for supporting Markdown
 * [PyRSS2Gen](http://pypi.python.org/pypi/PyRSS2Gen) - to generate RSS feeds
 
-# How to Start
-
 ## Dropbox configuration
-* [Create an Dropbox app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you.
+* [Create an Dropbox app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you. After this, a folder `Chili` should be created automatically in your Dropbox folder.
 * In your dropbox folder `~user/Dropbox/Apps/Chili`, write articles in Markdown and save with `.md` suffix.
 
-## Settings
-`/config.py` is to config Chili, but it's better to create a new file `/local_config.py`, it can overwrite the settings in `/config,py`.
+## Change settings
+`/config.py` is to config Chili, but it's better to create file `/local_config.py` that can overwrite the settings in `/config,py`.
 
 * `DROPBOX_APP_KEY`: `App key` of your app in Dropbox
 * `DROPBOX_APP_SECRET`: `App secret` of your app in Dropbox
@@ -31,6 +29,8 @@ Chili is a Dropbox powered static site generator.
 		>>> os.urandom(24)
 
 ## Nginx config
+You can configure the nginx like this:
+
     upstream chili {
 	   server 127.0.0.1:7777;
    	}
@@ -58,13 +58,19 @@ Chili is a Dropbox powered static site generator.
 ## Start Chili on server
 * `sh restartapp.sh`
 
-# How to sync new post?
+# Write post
+## How to sync new post?
 * Just request `http://your-domaindotcom/sync` in browser,  this will sync Dropbox app folder and download all posts, all your posts will be generated,  you will be asked for the permission for accessing Dropbox Chili folder for the first time.
 * If request `http://your-domaindotcom/regen` in browser, this will generate all your posts without sync, this is useful when you just make some customize on the template.
 
 All these links are list in`http://your-domaindotcom/tools`.
 
-# About Markdown meta data
+## How to show image?
+Create directory `image` in `~user/Dropbox/Apps/Chili`, put image file into it, then write like this in the post content:
+
+`![photo title](/img/photoname.jpg)`
+
+## About Markdown meta data
 You can control the post by using the meta data:
 * Title: title of the post
 * Date: the create time of the post
