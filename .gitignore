@@ -37,3 +37,4 @@ public/tags/*.*
 public/image/*.*
 raw_entries/
 logs/
+tests/output/
