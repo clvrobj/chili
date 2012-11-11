@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+
 from os import listdir, makedirs
 from os.path import isfile, join, exists
 import urllib
@@ -20,14 +21,19 @@ from config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
 
 class DropboxSync(object):
 
-    def __init__(self, client):
+    def __init__(self, client, content_path=RAWS_DIR,\
+                 output_path=LOCAL_ENTRIES_DIR, \
+                 output_tags_path=LOCAL_TAGS_DIR):
         self.client = client
+        self.content_path = content_path
+        self.output_path = output_path
+        self.output_tags_path = output_tags_path
 
     def process_remote_file(self, path):
         print 'Downloading %s' % path
         suffix = path.split('.')[-1]
         if suffix == RAW_ENTRY_FILE_FORMAT:
-            dir_path = RAWS_DIR
+            dir_path = self.content_path
         elif suffix == 'png' or suffix == 'jpg' or suffix == 'jpeg' or suffix == 'gif':
             dir_path = LOCAL_IMAGE_DIR
         else:
@@ -80,7 +86,7 @@ class DropboxSync(object):
 
     def get_file_info(self, file_name):
         name = file_name.rstrip('.md')
-        raw = open(join(RAWS_DIR, file_name), 'r')
+        raw = open(join(self.content_path, file_name), 'r')
         md = markdown.Markdown(extensions=['meta'])
         content = md.convert(raw.read().decode('utf8'))
         meta = md.Meta
@@ -118,9 +124,9 @@ class DropboxSync(object):
         l.pop('self')
         html_content = render_template('entry.html', **l)
         path = urllib.quote_plus(name) + '.html'
-        if not exists(LOCAL_ENTRIES_DIR):
-            makedirs(LOCAL_ENTRIES_DIR)
-        gen = open(join(LOCAL_ENTRIES_DIR, path), 'wb')
+        if not exists(self.output_path):
+            makedirs(self.output_path)
+        gen = open(join(self.output_path, path), 'wb')
         gen.write(html_content)
         gen.close()
         print 'Gen %s OK.' % name
@@ -150,11 +156,11 @@ class DropboxSync(object):
             for tag in entry['tags']:
                 tags.setdefault(tag, [])
                 tags[tag].append(entry)
-        if not exists(LOCAL_TAGS_DIR):
-            makedirs(LOCAL_TAGS_DIR)
+        if not exists(self.output_tags_path):
+            makedirs(self.output_tags_path)
         for tag in tags:
             entries = tags[tag]
-            gen = open(join(LOCAL_TAGS_DIR, '%s.html' % tag), 'wb')
+            gen = open(join(self.output_tags_path, '%s.html' % tag), 'wb')
             l = locals()
             l.pop('self')
             gen.write(render_template('tag.html', **l))
@@ -164,7 +170,7 @@ class DropboxSync(object):
         print 'Gen html file now...'
         try:
             dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
-            fs = [f for f in listdir(RAWS_DIR) if isfile(join(RAWS_DIR, f)) and f.endswith('.md') and f in dropbox_files]
+            fs = [f for f in listdir(self.content_path) if isfile(join(self.content_path, f)) and f.endswith('.md') and f in dropbox_files]
             files_info = []
             for f in fs:
                 info = self.get_file_info(f)
@@ -228,7 +234,7 @@ class Dropbox(object):
 
         c = client.DropboxClient(self.session)
         print "linked account:", c.account_info()
-    
+
         # Remove available request token
         del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
 
