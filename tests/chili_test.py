@@ -18,14 +18,14 @@ from utils import DropboxSync
 class DummyDropboxClient(object):
 
     def revisions(self, path):
-        return [{'modified':'Wed, 20 Jul 2011 22:04:50 +0000'}]
+        return [{'modified':'Wed, 20 Jul 2012 22:04:50 +0000'}]
 
     def metadata(self, path):
         if path == '/':
-            return {'is_dir':True,
-                    'contents':[{'path':'/test-1.md', 'is_dir':False},
-                                {'path':'/test-2.md', 'is_dir':False},
-                                {'path':'/test-3.md', 'is_dir':False}]}
+            ret = {'is_dir':True}
+            content_files = ['test-1.md', 'test-2.md', 'test-3.md']
+            ret['contents'] = [{'path':'/' + f, 'is_dir':False} for f in content_files]
+            return ret
         return {'is_dir':False}
 
 class ChiliTest(unittest.TestCase):
@@ -42,10 +42,6 @@ class ChiliTest(unittest.TestCase):
         self.output_path = join(cur_dir, 'output')
         self.output_tags_path = join(self.output_path, 'tags')
 
-        @app.before_request
-        def setup_context():
-            pass
-
         @app.route('/regen')
         def regen():
             client = DummyDropboxClient()
@@ -61,6 +57,10 @@ class ChiliTest(unittest.TestCase):
                         if os.path.isfile(os.path.join(self.output_path,
                                                        f))]
         assert len(content_files) == len(output_files)
+
+        for f in content_files:
+            output_file = f.replace('.md', '.html')
+            assert True == os.path.exists(join(self.output_path, output_file))
 
     def tearDown(self):
         for f in os.listdir(self.output_tags_path):
