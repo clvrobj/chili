@@ -17,18 +17,19 @@ Dropbox powered static site generator.
 * [Create an Dropbox app](https://www.dropbox.com/developers/apps), `Access level` → `App folder`, `Name of app folder` → `Chili`, Dropbox will generate `App key` and `App secret` for you. After this, a folder `Chili` should be created automatically in your Dropbox folder.
 * In your dropbox folder `~user/Dropbox/Apps/Chili`, write articles in Markdown and save with `.md` suffix.
 
-## Change settings
-`/config.py` is to config Chili, but it's better to create file `/local_config.py` that can overwrite the settings in `/config,py`.
+## Configuration
+You can configure Chili, by modifying the `/config.py` file.
 
 * `DROPBOX_APP_KEY`: `App key` of your app in Dropbox
 * `DROPBOX_APP_SECRET`: `App secret` of your app in Dropbox
-* `DROPBOX_ACCOUNT_EMAIL`: Dropbox account email address (bind to this account , other account will not be sync)
+* `DROPBOX_ACCOUNT_EMAIL`: Dropbox account email address (lock to this account , other account will not be sync)
 * `APP_SECRET_KEY`: for using flask session, this value can be get by
 
 		>>> import os
 		>>> os.urandom(24)
 
-## Nginx config
+## Deployment
+### Nginx configuration
 You can configure the nginx like this:
 
     upstream chili {
@@ -55,7 +56,7 @@ You can configure the nginx like this:
 	  fastcgi_intercept_errors off;
 	}
 
-## Start Chili on server
+### Start Chili on server
 * `sh restartapp.sh`
 
 # Write post
@@ -63,15 +64,16 @@ You can configure the nginx like this:
 * Just request `http://your-domaindotcom/sync` in browser,  this will sync Dropbox app folder and download all posts, all your posts will be generated,  you will be asked for the permission for accessing Dropbox Chili folder for the first time.
 * If request `http://your-domaindotcom/regen` in browser, this will generate all your posts without sync, this is useful when you just make some customize on the template.
 
-All these links are list in`http://your-domaindotcom/tools`.
+All these links are list on`http://your-domaindotcom/tools`.
 
-## How to show image?
+## How to embed image?
 Create directory `image` in `~user/Dropbox/Apps/Chili`, put image file into it, then write like this in the post content:
 
 `![photo title](/img/photoname.jpg)`
 
 ## About Markdown meta data
 You can control the post by using the meta data:
+
 * Title: title of the post
 * Date: the create time of the post
 * Public: public switch
@@ -87,7 +89,9 @@ Example:
 		Keywords: markdown
                   dropbox
                   blog
-
+		
+		
+		[Post content]
 
 # Sample
 My personal blog in Chinese: [http://zhangchi.de/](http://zhangchi.de/)
