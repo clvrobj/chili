@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+from werkzeug.exceptions import Forbidden
 from flask import Flask, request, redirect, url_for, send_from_directory, abort, session as flask_session
 from flask.ext.mako import MakoTemplates, render_template
 from dropbox.rest import ErrorResponse
@@ -65,7 +66,7 @@ def tag(filename):
 def image(filename):
     if not LOCAL_DEV:
         r = request.referrer.split('/')[2]
-        if r != DOMAIN and r != DOMAIN2: 
+        if r != DOMAIN and r != DOMAIN2:
             abort(403)
     return send_from_directory(LOCAL_IMAGE_DIR, filename)
 
@@ -98,8 +99,8 @@ def login_success():
 
     try:
         dropbox.login(request_token)
-    except ErrorResponse, e:
-        return 'login error'
+    except (ErrorResponse, Forbidden):
+        return 'Login error!'
     return redirect('/')
 
 @app.route('/logout')

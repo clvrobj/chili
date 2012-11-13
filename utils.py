@@ -9,6 +9,7 @@ import pytz
 from operator import itemgetter
 import markdown
 from werkzeug.utils import cached_property
+from werkzeug.exceptions import Forbidden
 from flask import request, session as flask_session
 from flask.ext.mako import render_template
 from dropbox import client, rest, session
@@ -239,8 +240,9 @@ class Dropbox(object):
         del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
 
         if DROPBOX_ACCOUNT_EMAIL != c.account_info().get('email'):
-            # owner account is wrong should not login
+            # Dropbox account is incorrect, can not login
             self.logout()
+            raise Forbidden
 
     def logout(self):
         if DROPBOX_ACCESS_TOKEN_KEY in flask_session:

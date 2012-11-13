@@ -1,7 +1,5 @@
 #-*- coding:utf-8 -*-
 
-LOCAL_DEV = False
-
 DROPBOX_APP_KEY = ''
 DROPBOX_APP_SECRET = ''
 DROPBOX_ACCOUNT_EMAIL = ''
@@ -38,6 +36,8 @@ BLOG_NAME = '博客'
 TWITTER_NAME = ''
 DISQUS_SHORTNAME = ''
 TRACKING_CODE = ''
+
+LOCAL_DEV = False
 
 try:
     from local_config import *
