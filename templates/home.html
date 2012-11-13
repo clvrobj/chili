@@ -1,6 +1,6 @@
 <%inherit file="/base.html"/>
 
-<%! from config import BLOG_NAME, PAGE_LINK_PATTERN %>
+<%! from global_config import BLOG_NAME, PAGE_LINK_PATTERN %>
 
 <%def name="title()">${BLOG_NAME.decode('utf8')}</%def>
 
@@ -63,7 +63,7 @@ ${self.pagination()}
 <%def name="bottom_script()">
 <script type="text/javascript">
   <%!
-      from config import DISQUS_SHORTNAME
+      from global_config import DISQUS_SHORTNAME
   %>
   var disqus_shortname = '${DISQUS_SHORTNAME}';
   (function () {

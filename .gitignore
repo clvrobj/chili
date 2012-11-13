@@ -29,7 +29,7 @@ pip-log.txt
 *.rdb
 
 # chili
-local_config.py
+config.py
 public/*.*
 !public/robots.txt
 public/entries/*.*

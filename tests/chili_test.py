@@ -11,7 +11,7 @@ sys.path.insert(0, ROOT_DIR)
 
 from flask import Flask
 from flask.ext.mako import MakoTemplates
-from config import MAKO_DIR
+from global_config import MAKO_DIR
 from utils import DropboxSync
 
 

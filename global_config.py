@@ -40,6 +40,6 @@ TRACKING_CODE = ''''''
 LOCAL_DEV = False
 
 try:
-    from local_config import *
+    from config import *
 except ImportError:
     pass

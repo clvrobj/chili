@@ -49,7 +49,7 @@ ${comments_block()}
 
 <%def name="comments_block()">
   <%!
-      from config import DISQUS_SHORTNAME
+      from global_config import DISQUS_SHORTNAME
   %>
   % if DISQUS_SHORTNAME:
   <div id="disqus_thread"></div>
