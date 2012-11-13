@@ -78,6 +78,11 @@ def login():
     url = dropbox.login_url
     return 'Click <a href="%s">here</a> to login with Dropbox.' % url
 
+@app.route('/logout')
+def logout():
+    dropbox.logout()
+    return redirect('/')
+
 @app.route('/login_success')
 def login_success():
     oauth_token = request.args.get('oauth_token')
