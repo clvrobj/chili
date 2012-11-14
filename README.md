@@ -8,7 +8,7 @@ Dropbox powered static site generator.
 ```bash
 $ git clone git://github.com/clvrobj/chili.git
 $ cd chili
-$ pip install -r requirements
+$ pip install -r requirements.txt
 ```
 
 * Install [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
