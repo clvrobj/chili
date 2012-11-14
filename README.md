@@ -1,9 +1,3 @@
-Title: Hello, I am Chili!
-Keywords: markdown
-          dropbox
-          blog
-
-
 Chili
 =====
 Dropbox powered static site generator.
