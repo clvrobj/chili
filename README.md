@@ -3,7 +3,7 @@ Chili
 Dropbox powered static site generator.
 
 # Install
-`git clone git@github.com:clvrobj/chili.git`
+`git clone git://github.com/clvrobj/chili.git`
 
 ## Dependencies
 * [Flask](http://flask.pocoo.org/) - Chili is based on Flask framework
