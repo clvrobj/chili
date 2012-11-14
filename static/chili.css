@@ -8,6 +8,7 @@ p a { margin:-.5em; padding:.5em; position:relative; }
 a:link, a:visited { color: #4083A8; text-decoration: none; word-wrap:break-word; word-break:normal; }
 a:hover { color: #205f80; text-decoration: none; }
 ::selection { background:#F6810B; color:white; text-shadow:none }
+.fright { float:right; }
 .clearfix::after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
 
 #header { }
