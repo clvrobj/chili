@@ -3,15 +3,15 @@ Chili
 Dropbox powered static site generator.
 
 # Install
-`git clone git://github.com/clvrobj/chili.git`
+* Download the source and install the dependencies:
 
-## Dependencies
-* [Flask](http://flask.pocoo.org/) - Chili is based on Flask framework
-* [Flask-Mako](http://packages.python.org/Flask-Mako/) - for Mako templating support
-* [Flask-Actions](http://packages.python.org/Flask-Actions/) - for running fastcgi daemon on server
-* [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
-* [Markdown](http://pypi.python.org/pypi/Markdown) - for supporting Markdown
-* [PyRSS2Gen](http://pypi.python.org/pypi/PyRSS2Gen) - to generate RSS feeds
+```bash
+$ git clone git://github.com/clvrobj/chili.git
+$ cd chili
+$ pip install -r requirements
+```
+
+* Install [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
 
 ## Dropbox configuration
 * [Create an Dropbox app](https://www.dropbox.com/developers/apps), `App name` → `YourAppName`, `Access level` → `App folder` , Dropbox will generate `App key` and `App secret` for you, a folder named `YourAppName` should be created in your Dropbox folder automatically.
