@@ -1,3 +1,9 @@
+Title: Hello, I am Chili!
+Keywords: markdown
+          dropbox
+          blog
+
+
 Chili
 =====
 Dropbox powered static site generator.
@@ -110,16 +116,16 @@ You can control the post by using the meta data:
 
 Example:
 
-		Title: This is title
-		Date:  2012-09-24 09:26:00
-		Public: Yes
-		Comment: Yes
-		Keywords: markdown
-                  dropbox
-                  blog
-		
-		
-		[Post content]
+	Title: This is title
+	Date:  2012-09-24 09:26:00
+	Public: Yes
+	Comment: Yes
+	Keywords: markdown
+	          dropbox
+	          blog
+	
+	
+	[Post content]
 
 # Example
 ChiliPy.com: [http://chilipy.com/](http://chilipy.com/)
