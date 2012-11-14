@@ -26,8 +26,8 @@ You can configure Chili, by modifying the `/config.py` file.
 * `APP_SECRET_KEY`: for using flask session, this value can be get by
 
 ``` python
-import os
-os.urandom(24)
+>>> import os
+>>> os.urandom(24)
 ```
 
 * `DOMAIN`: your domain name, like `chilipy.com`
