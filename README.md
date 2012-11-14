@@ -31,7 +31,7 @@ You can configure Chili, by modifying the `/config.py` file.
 * `DOMAIN`: your domain name, like `chilipy.com`
 * `BLOG_NAME`: shown at the top of site.
 * `TRACKING_CODE`: you can insert script snippet to the bottom of the page.
-* `DISQUS_SHORTNAME`: Disqus to add comments.
+* `DISQUS_SHORTNAME`: use Disqus for comments.
 
 Here the default:
 
