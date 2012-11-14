@@ -25,8 +25,10 @@ You can configure Chili, by modifying the `/config.py` file.
 * `DROPBOX_ACCOUNT_EMAIL`: Dropbox account email address (lock to this account , other account will not be sync)
 * `APP_SECRET_KEY`: for using flask session, this value can be get by
 
-		>>> import os
-		>>> os.urandom(24)
+``` python
+import os
+os.urandom(24)
+```
 
 * `DOMAIN`: your domain name, like `chilipy.com`
 * `BLOG_NAME`: shown at the top of site.
@@ -36,53 +38,56 @@ You can configure Chili, by modifying the `/config.py` file.
 
 Here the default:
 
-	DROPBOX_APP_KEY = ''
-	DROPBOX_APP_SECRET = ''
-	DROPBOX_ACCOUNT_EMAIL = ''
-	APP_SECRET_KEY = ''
-	
-	DOMAIN = 'yourdomain.com'
-	
-	BLOG_NAME = 'Site title'
+``` bash
+DROPBOX_APP_KEY = ''
+DROPBOX_APP_SECRET = ''
+DROPBOX_ACCOUNT_EMAIL = ''
+APP_SECRET_KEY = ''
 
-	TWITTER_NAME = ''
+DOMAIN = 'yourdomain.com'
 
-	DISQUS_SHORTNAME = ''
+BLOG_NAME = 'Site title'
 
-	TIMEZONE = ''
+TWITTER_NAME = ''
 
-	TRACKING_CODE = """
-	<script type="text/javascript">
-	</script>
-	"""
+DISQUS_SHORTNAME = ''
 
+TIMEZONE = ''
+
+TRACKING_CODE = """
+<script type="text/javascript">
+</script>
+"""
+```
 
 ## Deployment
 ### Nginx configuration
 You can configure the nginx like this:
 
-	server {
-	    listen 80;
-	    server_name you-domain;
-	    location / {
-	      fastcgi_pass  127.0.0.1:7777;
-	      root /var/path-to-chili/;
-	      fastcgi_param REQUEST_URI       $request_uri;
-	      fastcgi_param REQUEST_METHOD    $request_method;
-	      fastcgi_param QUERY_STRING      $query_string;
-	      fastcgi_param CONTENT_TYPE      $content_type;
-	      fastcgi_param CONTENT_LENGTH    $content_length;
-	      fastcgi_param SERVER_ADDR       $server_addr;
-	      fastcgi_param SERVER_PORT       $server_port;
-	      fastcgi_param SERVER_NAME       $server_name;
-	      fastcgi_param SERVER_PROTOCOL   $server_protocol;
-	      fastcgi_param PATH_INFO         $fastcgi_script_name;
-	      fastcgi_param REMOTE_ADDR       $remote_addr;
-	      fastcgi_param REMOTE_PORT       $remote_port;
-	      fastcgi_pass_header Authorization;
-	      fastcgi_intercept_errors off;
-	    }
-	}
+``` bash
+server {
+    listen 80;
+    server_name you-domain;
+    location / {
+      fastcgi_pass  127.0.0.1:7777;
+      root /var/path-to-chili/;
+      fastcgi_param REQUEST_URI       $request_uri;
+      fastcgi_param REQUEST_METHOD    $request_method;
+      fastcgi_param QUERY_STRING      $query_string;
+      fastcgi_param CONTENT_TYPE      $content_type;
+      fastcgi_param CONTENT_LENGTH    $content_length;
+      fastcgi_param SERVER_ADDR       $server_addr;
+      fastcgi_param SERVER_PORT       $server_port;
+      fastcgi_param SERVER_NAME       $server_name;
+      fastcgi_param SERVER_PROTOCOL   $server_protocol;
+      fastcgi_param PATH_INFO         $fastcgi_script_name;
+      fastcgi_param REMOTE_ADDR       $remote_addr;
+      fastcgi_param REMOTE_PORT       $remote_port;
+      fastcgi_pass_header Authorization;
+      fastcgi_intercept_errors off;
+    }
+}
+```
 
 
 ### Start Chili on server
@@ -113,16 +118,18 @@ You can control the post by using the meta data:
 
 Example:
 
-	Title: This is title
-	Date:  2012-09-24 09:26:00
-	Public: Yes
-	Comment: Yes
-	Keywords: markdown
-	          dropbox
-	          blog
-	
-	
-	[Post content]
+``` bash
+Title: This is title
+Date:  2012-09-24 09:26:00
+Public: Yes
+Comment: Yes
+Keywords: markdown
+          dropbox
+          blog
+
+
+[Post content]
+```
 
 # Example
-ChiliPy.com: [http://chilipy.com/](http://chilipy.com/)
+ChiliPy.com: <http://chilipy.com/>
