@@ -11,8 +11,6 @@ $ cd chili
 $ pip install -r requirements.txt
 ```
 
-* Install [Dropbox Python SDK](https://www.dropbox.com/developers/reference/sdk)
-
 ## Dropbox configuration
 * [Create an Dropbox app](https://www.dropbox.com/developers/apps), `App name` → `YourAppName`, `Access level` → `App folder` , Dropbox will generate `App key` and `App secret` for you, a folder named `YourAppName` should be created in your Dropbox folder automatically.
 * In your Dropbox folder `~user/Dropbox/Apps/YourAppName`, write article with Markdown and save with `.md` suffix.
