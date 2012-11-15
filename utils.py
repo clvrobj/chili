@@ -19,6 +19,7 @@ from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TY
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
     BLOG_NAME, PAGE_POSTS_COUNT
 
+MARKDOWN_FILE_PATTERN = re.compile('^.+(.md|.markdown)$')
 
 class DropboxSync(object):
 
@@ -171,7 +172,8 @@ class DropboxSync(object):
         print 'Gen html file now...'
         try:
             dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
-            fs = [f for f in listdir(self.content_path) if isfile(join(self.content_path, f)) and f.endswith('.md') and f in dropbox_files]
+            fs = [f for f in listdir(self.content_path) if isfile(join(self.content_path, f))\
+                  and re.match(MARKDOWN_FILE_PATTERN, f) and f in dropbox_files]
             files_info = []
             for f in fs:
                 info = self.get_file_info(f)
