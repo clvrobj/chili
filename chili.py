@@ -110,7 +110,6 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    from config import DOMAIN, BLOG_NAME, TWITTER_NAME
     return render_template('page_not_found.html', **locals()), 404
 
 
