@@ -3,8 +3,6 @@ Chili
 Dropbox powered static site generator.
 
 # Install
-* Download the source and install the dependencies:
-
 ```bash
 $ git clone git://github.com/clvrobj/chili.git
 $ cd chili
