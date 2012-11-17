@@ -11,7 +11,7 @@ $ pip install -r requirements.txt
 
 ## Dropbox configuration
 * [Create an Dropbox app](https://www.dropbox.com/developers/apps), `App name` → `YourAppName`, `Access level` → `App folder` , Dropbox will generate `App key` and `App secret` for you, a folder named `YourAppName` should be created in your Dropbox folder automatically.
-* In your Dropbox folder `~user/Dropbox/Apps/YourAppName`, write article with Markdown and save with `.md` suffix.
+* In your Dropbox folder `~user/Dropbox/Apps/YourAppName`, write article with Markdown and save with `.md`or .markdown suffix.
 
 ## Configuration
 You can configure Chili, by modifying the `/config.py` file.
@@ -90,7 +90,7 @@ server {
 * `sh restartapp.sh`
 
 # Writing Posts
-Write article with Markdown and save with .md suffix in your Dropbox folder `~user/Dropbox/Apps/YourAppName`.
+Write article with Markdown and save with .md`or .markdown suffix in your Dropbox folder `~user/Dropbox/Apps/YourAppName`.
 
 ## How to sync new post?
 * Just request `http://your-domaindotcom/sync` in browser,  this will sync Dropbox app folder and download all posts, all your posts will be generated,  you will be asked for the permission for accessing Dropbox Chili folder for the first time.
