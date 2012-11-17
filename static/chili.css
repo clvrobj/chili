@@ -54,3 +54,4 @@ a:hover { color: #205f80; text-decoration: none; }
 .markdown-body img { max-width:100% }
 .markdown-body .photo { background:none; border:none; color:transparent }
 .markdown-body .center { text-align: center }
+.markdown-body blockquote { border-left:4px solid #DDD; padding:0 15px; color:#777 }
