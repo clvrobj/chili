@@ -63,11 +63,13 @@ class ChiliTest(unittest.TestCase):
             assert True == os.path.exists(join(self.output_path, output_file))
 
     def tearDown(self):
-        for f in os.listdir(self.output_tags_path):
-            os.remove(os.path.join(self.output_tags_path, f))
-        os.rmdir(self.output_tags_path)
-        for f in os.listdir(self.output_path):
-            os.remove(os.path.join(self.output_path, f))
+        if os.path.exists(self.output_tags_path):
+            for f in os.listdir(self.output_tags_path):
+                os.remove(os.path.join(self.output_tags_path, f))
+            os.rmdir(self.output_tags_path)
+        if os.path.exists(self.output_path):
+            for f in os.listdir(self.output_path):
+                os.remove(os.path.join(self.output_path, f))
 
 if __name__ == '__main__':
     unittest.main()
