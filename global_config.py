@@ -10,7 +10,7 @@ DROPBOX_REQUEST_TOKEN_KEY = 'dropbox_request_token'
 DROPBOX_REQUEST_TOKEN_SECRET_KEY = 'dropbox_request_token_secret'
 DROPBOX_ACCESS_TOKEN_KEY = 'dropbox_access_token'
 
-RAW_ENTRY_FILE_FORMAT = 'md'
+RAW_ENTRY_FILE_SUFFIX = ('.md', '.markdown')
 RAWS_DIR = 'raw_entries'
 REMOTE_IMAGE_DIR = '/image'
 PUBLIC_DIR = 'public'

@@ -14,12 +14,11 @@ from flask import request, session as flask_session
 from flask.ext.mako import render_template
 from dropbox import client, rest, session
 from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
-    DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_FORMAT, \
+    DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_SUFFIX, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
     BLOG_NAME, PAGE_POSTS_COUNT
 
-MARKDOWN_FILE_PATTERN = re.compile('^.+(.md|.markdown)$')
 
 class DropboxSync(object):
 
@@ -34,7 +33,7 @@ class DropboxSync(object):
     def process_remote_file(self, path):
         print 'Downloading %s' % path
         suffix = path.split('.')[-1]
-        if suffix == RAW_ENTRY_FILE_FORMAT:
+        if path.endswith(RAW_ENTRY_FILE_SUFFIX):
             dir_path = self.content_path
         elif suffix == 'png' or suffix == 'jpg' or suffix == 'jpeg' or suffix == 'gif':
             dir_path = LOCAL_IMAGE_DIR
@@ -80,7 +79,7 @@ class DropboxSync(object):
             return time.strftime('%Y-%m-%d %H:%M:%S')
 
         meta = self.client.metadata(path)
-        if not meta['is_dir'] and path.split('.')[-1] == RAW_ENTRY_FILE_FORMAT:
+        if not meta['is_dir'] and path.endswith(RAW_ENTRY_FILE_SUFFIX):
             first = self.client.revisions(path)[-1]
             # modified date format: 'Thu, 25 Aug 2011 00:03:15 +0000'
             modified = datetime.strptime(first['modified'][:-6], '%a, %d %b %Y %H:%M:%S')
@@ -173,7 +172,7 @@ class DropboxSync(object):
         try:
             dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
             fs = [f for f in listdir(self.content_path) if isfile(join(self.content_path, f))\
-                  and re.match(MARKDOWN_FILE_PATTERN, f) and f in dropbox_files]
+                  and f.endswith(RAW_ENTRY_FILE_SUFFIX) and f in dropbox_files]
             files_info = []
             for f in fs:
                 info = self.get_file_info(f)
