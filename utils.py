@@ -17,8 +17,7 @@ from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TY
     DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_SUFFIX, \
     RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
     REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
-    BLOG_NAME, PAGE_POSTS_COUNT
-
+    BLOG_NAME, PAGE_POSTS_COUNT, NAV_ITEMS
 
 class DropboxSync(object):
 
@@ -137,6 +136,8 @@ class DropboxSync(object):
         def chunks(l, n):
             for i in xrange(0, len(l), n):
                 yield (i+1)/n + 1, l[i:i+n]
+
+        files_info = filter(lambda i: i['file_name'] not in NAV_ITEMS, files_info)
 
         pages = list(chunks(files_info, PAGE_POSTS_COUNT))
         prev_page_id = 0

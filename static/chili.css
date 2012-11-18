@@ -13,7 +13,8 @@ a:hover { color: #205f80; text-decoration: none; }
 
 #header { }
 #header-inner { padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
-#header h1 { margin:0; padding:0; color:#999; }
+#header h1 a { margin:0; padding:0; color:#999; }
+#header .menu li { display:inline; padding:0 9px; }
 #wrap {  padding:36px 0;  }
 #content { }
 #main { float:left; width:100%; }
@@ -23,7 +24,7 @@ a:hover { color: #205f80; text-decoration: none; }
 
 .entry { margin-bottom:52px }
 .entry .header { color:#888 }
-.entry .header h1 { font-size:1.8em; font-weight:normal; color:#A2122F }
+.entry .header h1 { font-size:1.8em; font-weight:bold; color:#A2122F }
 .entry .footer { text-align:right; }
 .entry .footer, .entry .footer a { color:#848484 }
 .entry .footer .tags { float:left }

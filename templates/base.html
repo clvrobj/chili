@@ -1,5 +1,5 @@
 <%!
-    from global_config import DOMAIN, BLOG_NAME, TWITTER_NAME, TRACKING_CODE
+    from global_config import DOMAIN, BLOG_NAME, TWITTER_NAME, TRACKING_CODE, NAV_ITEMS
     from datetime import datetime
 %>
 <!DOCTYPE html>
@@ -28,7 +28,19 @@
 <%def name="header()">
 <div id="header">
   <div id="header-inner" class="clearfix">
-    <a href="/"><h1>${BLOG_NAME.decode('utf8')}</h1></a>
+    <h1><a href="/">${BLOG_NAME.decode('utf8')}</a></h1>
+    % if len(NAV_ITEMS) > 0:
+    <ul class="menu">
+      <li>
+        <a href="/">HOME</a>
+      </li>
+      % for item in NAV_ITEMS:
+      <li>
+        <a href="/post/${item}.html">${item.upper()}</a>
+      </li>
+      % endfor
+    </ul>
+    % endif
   </div>
 </div>
 </%def>

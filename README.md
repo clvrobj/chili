@@ -30,6 +30,7 @@ You can configure Chili, by modifying the `/config.py` file.
 * `BLOG_NAME`: shown at the top of site.
 * `DISQUS_SHORTNAME`: use Disqus for comments.
 * `TIMEZONE`: set your timezone.
+* `NAV_ITEMS`: items shown in nav menu.
 * `TRACKING_CODE`: you can insert script snippet to the bottom of the page.
 
 Here the default:
@@ -41,15 +42,11 @@ DROPBOX_ACCOUNT_EMAIL = ''
 APP_SECRET_KEY = ''
 
 DOMAIN = 'yourdomain.com'
-
 BLOG_NAME = 'Site title'
-
 TWITTER_NAME = ''
-
 DISQUS_SHORTNAME = ''
-
 TIMEZONE = ''
-
+NAV_ITEMS = ('about', ) # items shown in nav menu. 
 TRACKING_CODE = """
 <script type="text/javascript">
 </script>
