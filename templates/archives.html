@@ -1,0 +1,34 @@
+<%inherit file="/base.html"/>
+
+<%! from global_config import BLOG_NAME, PAGE_LINK_PATTERN %>
+
+<%def name="title()">${BLOG_NAME.decode('utf8')}</%def>
+
+<%def name="main()">
+<div id="archives">
+  % for e in entries:
+  ${self.entry(e)}
+  % endfor
+</div>
+</%def>
+
+<%def name="entry(e)">
+  <div class="entry">
+    <h1><a href="${e['link']}">${e['title']}</a></h1>
+    <div class="created-time">${e['created_at']}</div>
+    <div class="footer clearfix">
+      % if e['tags']:
+      ${tags_block(e['tags'])}
+      % endif
+    </div>
+  </div>
+</%def>
+
+<%def name="tags_block(tags=[])">
+  <div class="tags">
+    Tags:
+    % for tag in tags:
+    <a href="/tag/${tag}.html">${tag}</a>
+    % endfor
+  </div>
+</%def>

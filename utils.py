@@ -152,6 +152,15 @@ class DropboxSync(object):
             gen.close()
         print 'Gen home page OK.'
 
+    def gen_archives_page(self, files_info):
+        entries = files_info
+        gen = open(join(PUBLIC_DIR, 'archives.html'), 'wb')
+        l = locals()
+        l.pop('self')
+        gen.write(render_template('archives.html', **l))
+        gen.close()
+        print 'Gen archives page OK.'
+
     def gen_tag_page(self, files_info):
         tags = {}
         for entry in files_info:
@@ -185,6 +194,7 @@ class DropboxSync(object):
                 next = files_info[i-1] if i > 0 else None
                 self.gen_entry_page(file_info, prev_file=prev, next_file=next)
             self.gen_home_page(files_info)
+            self.gen_archives_page(files_info)
             self.gen_tag_page(files_info)
             self.gen_rss(files_info)
             return 'Done!'

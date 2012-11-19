@@ -14,7 +14,7 @@ a:hover { color: #205f80; text-decoration: none; }
 #header { }
 #header-inner { padding: 12px 0; border-bottom: 1px solid #E0DEDC; }
 #header h1 a { margin:0; padding:0; color:#999; }
-#header .menu li { display:inline; padding:0 9px; }
+#header .menu li { display:inline; padding-right:9px; }
 #wrap {  padding:36px 0;  }
 #content { }
 #main { float:left; width:100%; }
@@ -22,7 +22,7 @@ a:hover { color: #205f80; text-decoration: none; }
 #footer { min-height:100%; }
 #footer-inner { padding:20px 0; border-top: 1px solid #E0DEDC; }
 
-.entry { margin-bottom:52px }
+.entry { margin-bottom:3.7em }
 .entry .header { color:#888 }
 .entry .header h1 { font-size:1.8em; font-weight:bold; color:#A2122F }
 .entry .footer { text-align:right; }
@@ -33,8 +33,13 @@ a:hover { color: #205f80; text-decoration: none; }
 .entry .footer .comments-count { float:right }
 .entry .fin { font-size:14px; color:#F4F4F4; text-shadow: 0 1px 0 white; margin-top:1em; text-align:center }
 
-.pagination { font-weight:bold }
-.pagination .next { float:right }
+#archives .entry { margin-bottom:1.8em; padding-bottom:0.7em; border-bottom:1px dashed #CCC; }
+#archives .entry:last-child { border-bottom:none; }
+
+.pagination { position:relative; font-weight:bold; text-align: center; }
+.pagination a { color:#AAA; }
+.pagination .prev { position:absolute; left:0; }
+.pagination .next { position:absolute; right:0; }
 
 .markdown-body { padding:20px 0; }
 .markdown-body > :first-child { margin-top:0!important; }
