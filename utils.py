@@ -85,7 +85,7 @@ class DropboxSync(object):
             return format_time_str(modified.replace(tzinfo=pytz.UTC).astimezone(pytz.timezone(TIMEZONE)))
 
     def get_file_info(self, file_name):
-        name = file_name.rstrip('.md')
+        name = file_name[:file_name.rindex('.')]
         raw = open(join(self.content_path, file_name), 'r')
         md = markdown.Markdown(extensions=['meta'])
         content = md.convert(raw.read().decode('utf8'))
