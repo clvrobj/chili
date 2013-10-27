@@ -10,10 +10,12 @@ $ pip install -r requirements.txt
 ```
 
 ## Dropbox configuration
-* [Create an Dropbox app](https://www.dropbox.com/developers/apps), `App name` → `YourAppName`, `Access level` → `App folder` , Dropbox will generate `App key` and `App secret` for you, a folder named `YourAppName` should be created in your Dropbox folder automatically.
+* [Create an Dropbox app](https://www.dropbox.com/developers/apps), App type → `Dropbox API app`, App name → `YourAppName`, Access level → `App folder` , Dropbox will generate `App key` and `App secret` for you, a folder named `YourAppName` should be created in your Dropbox folder automatically.
 * In your Dropbox folder `~user/Dropbox/Apps/YourAppName`, write article with Markdown and save with `.md`or .markdown suffix.
 
 ## Configuration
+`cp config_py.tmpl config.py`
+
 You can configure Chili, by modifying the `/config.py` file.
 
 * `DROPBOX_APP_KEY`: `App key` of your app in Dropbox
@@ -33,25 +35,6 @@ You can configure Chili, by modifying the `/config.py` file.
 * `NAV_ITEMS`: items shown in nav menu.
 * `TRACKING_CODE`: you can insert script snippet to the bottom of the page.
 
-Here the default:
-
-``` bash
-DROPBOX_APP_KEY = ''
-DROPBOX_APP_SECRET = ''
-DROPBOX_ACCOUNT_EMAIL = ''
-APP_SECRET_KEY = ''
-
-DOMAIN = 'yourdomain.com'
-BLOG_NAME = 'Site title'
-TWITTER_NAME = ''
-DISQUS_SHORTNAME = ''
-TIMEZONE = ''
-NAV_ITEMS = ('about', ) # items shown in nav menu. 
-TRACKING_CODE = """
-<script type="text/javascript">
-</script>
-"""
-```
 
 ## Deployment
 ### Nginx configuration
