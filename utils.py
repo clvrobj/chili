@@ -42,10 +42,13 @@ class DropboxSync(object):
         if not exists(dir_path):
             makedirs(dir_path)
         target = join(dir_path, name)
-        if not isfile(target) or len(self.client.revisions(path)) > 1:
-            f = self.client.get_file(path)
-            raw = open(target, 'w').write(f.read())
-            return
+        try:
+            if not isfile(target) or len(self.client.revisions(path)) > 1:
+                f = self.client.get_file(path)
+                raw = open(target, 'w').write(f.read())
+                return
+        except rest.ErrorResponse:
+            pass
         # exists and no history
         print 'Already downloaded'
         return

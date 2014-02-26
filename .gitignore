@@ -38,3 +38,7 @@ public/image/*.*
 raw_entries/
 logs/
 tests/output/
+*.pid
+*.log
+*.*~
+\#*\#
