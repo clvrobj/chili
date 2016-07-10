@@ -1,4 +1,4 @@
-Flask==0.9
+Flask==0.11
 Flask-Mako==0.2
 Flask-Actions==0.6.5
 Markdown==2.2.0
