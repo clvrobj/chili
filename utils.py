@@ -230,7 +230,7 @@ class Dropbox(object):
         return DROPBOX_ACCESS_TOKEN_KEY in flask_session
 
     def get_auth_flow(self):
-        redirect_uri = url_for('dropbox_auth_finish', _external=True)
+        redirect_uri = url_for('dropbox_auth_finish', _scheme='https', _external=True)
         return client.DropboxOAuth2Flow(DROPBOX_APP_KEY, DROPBOX_APP_SECRET, redirect_uri,
                                  flask_session, 'dropbox-auth-csrf-token')
 
