@@ -107,6 +107,10 @@ def logout():
 def page_not_found(error):
     return render_template('page_not_found.html', **locals()), 404
 
+@app.route('/.well-known/<path:filename>')
+def for_certbot(filename):
+    return send_from_directory('.well-known', filename)
+
 
 if __name__ == '__main__':
     app.run(port=7777)
