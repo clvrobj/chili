@@ -4,5 +4,5 @@ Flask-Actions==0.6.5
 Markdown==2.2.0
 PyRSS2Gen==1.0.0
 pytz==2012h
-dropbox==1.5.1
+dropbox==6.5.0
 flup==1.0

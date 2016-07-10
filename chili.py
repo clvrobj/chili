@@ -1,8 +1,9 @@
 #-*- coding:utf-8 -*-
 from werkzeug.exceptions import Forbidden
-from flask import Flask, request, redirect, url_for, send_from_directory, abort, session as flask_session
+from flask import Flask, request, redirect, url_for, send_from_directory, abort,\
+    flash, session as flask_session
 from flask.ext.mako import MakoTemplates, render_template
-from dropbox.rest import ErrorResponse
+from dropbox.client import DropboxOAuth2Flow
 from utils import Dropbox, DropboxSync
 from global_config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY,\
     ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, TAG_LINK_PATTERN,\
@@ -74,34 +75,28 @@ def image(filename):
 def public(filename):
     return send_from_directory('public', filename)
 
-@app.route('/login')
-def login():
-    url = dropbox.login_url
-    return 'Click <a href="%s">here</a> to login with Dropbox.' % url
-
-@app.route('/logout')
-def logout():
-    dropbox.logout()
-    return redirect('/')
-
-@app.route('/login_success')
-def login_success():
-    oauth_token = request.args.get('oauth_token')
-    uid = request.args.get('uid')
-    if not oauth_token:
-        return 'oauth token error'
-
-    # oAuth token **should** be equal to stored request token
-    request_token = flask_session.get(DROPBOX_REQUEST_TOKEN_KEY)
-
-    if not request_token or oauth_token != request_token['key']:
-        return 'token not equal'
-
+@app.route('/dropbox-auth-finish')
+def dropbox_auth_finish():
     try:
-        dropbox.login(request_token)
-    except (ErrorResponse, Forbidden):
-        return 'Login error!'
+        access_token, user_id, url_state = dropbox.get_auth_flow().finish(request.args)
+    except DropboxOAuth2Flow.BadRequestException, e:
+        abort(400)
+    except DropboxOAuth2Flow.BadStateException, e:
+        abort(400)
+    except DropboxOAuth2Flow.CsrfException, e:
+        abort(403)
+    except DropboxOAuth2Flow.NotApprovedException, e:
+        flash('Not approved?  Why not')
+        return redirect('/')
+    except DropboxOAuth2Flow.ProviderException, e:
+        app.logger.exception("Auth error" + e)
+        abort(403)
+    dropbox.login_success(access_token)
     return redirect('/')
+
+@app.route('/login')
+def dropbox_auth_start():
+    return redirect(dropbox.login_url)
 
 @app.route('/logout')
 def logout():

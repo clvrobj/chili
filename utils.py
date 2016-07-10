@@ -10,7 +10,7 @@ from operator import itemgetter
 import markdown
 from werkzeug.utils import cached_property
 from werkzeug.exceptions import Forbidden
-from flask import request, session as flask_session
+from flask import request, url_for, session as flask_session
 from flask.ext.mako import render_template
 from dropbox import client, rest, session
 from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
@@ -229,32 +229,19 @@ class Dropbox(object):
     def is_authenticated(self):
         return DROPBOX_ACCESS_TOKEN_KEY in flask_session
 
-    @cached_property
-    def session(self):
-        return session.DropboxSession(DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE)
-
-    @property
-    def request_token(self):
-        token = self.session.obtain_request_token()
-        flask_session[DROPBOX_REQUEST_TOKEN_KEY] = {'key':token.key, 'secret':token.secret}
-        return token
+    def get_auth_flow(self):
+        redirect_uri = url_for('dropbox_auth_finish', _external=True)
+        return client.DropboxOAuth2Flow(DROPBOX_APP_KEY, DROPBOX_APP_SECRET, redirect_uri,
+                                 flask_session, 'dropbox-auth-csrf-token')
 
     @property
     def login_url(self):
-        return self.session.build_authorize_url(self.request_token, oauth_callback='%slogin_success' % request.host_url)
+        return self.get_auth_flow().start()
 
-    def login(self, request_token):
-        self.session.set_request_token(request_token['key'], request_token['secret'])
-        access_token = self.session.obtain_access_token(self.session.request_token)
-        flask_session[DROPBOX_ACCESS_TOKEN_KEY] = {'key':access_token.key, 'secret':access_token.secret}
-
-        c = client.DropboxClient(self.session)
-        print "linked account:", c.account_info()
-
-        # Remove available request token
-        del flask_session[DROPBOX_REQUEST_TOKEN_KEY]
-
-        if DROPBOX_ACCOUNT_EMAIL != c.account_info().get('email'):
+    def login_success(self, access_token):
+        flask_session[DROPBOX_ACCESS_TOKEN_KEY] = access_token
+        # check the email info with the config
+        if DROPBOX_ACCOUNT_EMAIL != self.client.account_info().get('email'):
             # Dropbox account is incorrect, can not login
             self.logout()
             raise Forbidden
@@ -266,5 +253,4 @@ class Dropbox(object):
     @property
     def client(self):
         access_token = flask_session[DROPBOX_ACCESS_TOKEN_KEY]
-        self.session.set_token(access_token['key'], access_token['secret'])
-        return client.DropboxClient(self.session)
+        return client.DropboxClient(access_token)
