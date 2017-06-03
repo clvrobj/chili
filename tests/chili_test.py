@@ -1,16 +1,17 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-u
 
+from __future__ import absolute_import
 import os
 import sys
-from os.path import join
 import unittest
+from os.path import join
+
+from flask import Flask
+from flask.ext.mako import MakoTemplates
 
 TEST_DIR = os.path.dirname(os.path.realpath(__file__))
 ROOT_DIR = os.path.dirname(TEST_DIR)
 sys.path.insert(0, ROOT_DIR)
-
-from flask import Flask
-from flask.ext.mako import MakoTemplates
 from global_config import MAKO_DIR
 from utils import DropboxSync
 
@@ -40,13 +41,15 @@ class ChiliTest(unittest.TestCase):
         cur_dir = os.path.dirname(os.path.realpath(__file__))
         self.content_path = join(cur_dir, 'content')
         self.output_path = join(cur_dir, 'output')
+        self.output_entries_path = join(self.output_path, 'entries')
         self.output_tags_path = join(self.output_path, 'tags')
 
         @app.route('/regen')
         def regen():
             client = DummyDropboxClient()
             DropboxSync(client, self.content_path,
-                        self.output_path, self.output_tags_path).gen_pages()
+                        self.output_path, self.output_entries_path,
+                        self.output_tags_path).gen_pages()
             return 'OK'
 
     def test_gen_posts(self):
@@ -60,16 +63,17 @@ class ChiliTest(unittest.TestCase):
 
         for f in content_files:
             output_file = f.replace('.md', '.html')
-            assert True == os.path.exists(join(self.output_path, output_file))
+            assert True == os.path.exists(join(self.output_entries_path, output_file))
 
     def tearDown(self):
-        if os.path.exists(self.output_tags_path):
-            for f in os.listdir(self.output_tags_path):
-                os.remove(os.path.join(self.output_tags_path, f))
-            os.rmdir(self.output_tags_path)
         if os.path.exists(self.output_path):
             for f in os.listdir(self.output_path):
-                os.remove(os.path.join(self.output_path, f))
+                f = os.path.join(self.output_path, f)
+                if os.path.isdir(f):
+                    for ff in os.listdir(f):
+                        os.remove(os.path.join(f, ff))
+                if os.path.isfile(f):
+                    os.remove(f)
 
 if __name__ == '__main__':
     unittest.main()

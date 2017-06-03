@@ -22,11 +22,13 @@ from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TY
 class DropboxSync(object):
 
     def __init__(self, client, content_path=RAWS_DIR,\
-                 output_path=LOCAL_ENTRIES_DIR, \
+                 output_path=PUBLIC_DIR,
+                 output_entries_path=LOCAL_ENTRIES_DIR,
                  output_tags_path=LOCAL_TAGS_DIR):
         self.client = client
         self.content_path = content_path
         self.output_path = output_path
+        self.output_entries_path = output_entries_path
         self.output_tags_path = output_tags_path
 
     def process_remote_file(self, path):
@@ -127,9 +129,9 @@ class DropboxSync(object):
         l.pop('self')
         html_content = render_template('entry.html', **l)
         path = urllib.quote_plus(name) + '.html'
-        if not exists(self.output_path):
-            makedirs(self.output_path)
-        gen = open(join(self.output_path, path), 'wb')
+        if not exists(self.output_entries_path):
+            makedirs(self.output_entries_path)
+        gen = open(join(self.output_entries_path, path), 'wb')
         gen.write(html_content)
         gen.close()
         print 'Gen %s OK.' % name
@@ -148,7 +150,7 @@ class DropboxSync(object):
         for i, entries in pages:
             next_page_id = i - 1 if i - 1 >= 0 else 0
             prev_page_id = i + 1 if i + 1 <= len(pages) else 0
-            gen = open(join(PUBLIC_DIR, 'home-%s.html' % i), 'wb')
+            gen = open(join(self.output_path, 'home-%s.html' % i), 'wb')
             l = locals()
             l.pop('self')
             gen.write(render_template('home.html', **l))
@@ -157,7 +159,7 @@ class DropboxSync(object):
 
     def gen_archives_page(self, files_info):
         entries = files_info
-        gen = open(join(PUBLIC_DIR, 'archives.html'), 'wb')
+        gen = open(join(self.output_path, 'archives.html'), 'wb')
         l = locals()
         l.pop('self')
         gen.write(render_template('archives.html', **l))
@@ -220,7 +222,7 @@ class DropboxSync(object):
         rss = PyRSS2Gen.RSS2(title=BLOG_NAME, link=DOMAIN_URL,
                              description='', lastBuildDate = datetime.now(),
                              items=items)
-        rss.write_xml(open(join(PUBLIC_DIR, 'rss.xml'), 'w'))
+        rss.write_xml(open(join(self.output_path, 'rss.xml'), 'w'))
 
 
 class Dropbox(object):
