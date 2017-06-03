@@ -1,23 +1,31 @@
 #-*- coding:utf-8 -*-
+from __future__ import print_function
 
-from os import listdir, makedirs
-from os.path import isfile, join, exists
-import urllib
 import re
+import urllib
 from datetime import datetime
-import pytz
 from operator import itemgetter
+from os import listdir, makedirs
+from os.path import exists, isfile, join
+
 import markdown
-from werkzeug.utils import cached_property
-from werkzeug.exceptions import Forbidden
-from flask import request, url_for, session as flask_session
-from flask.ext.mako import render_template
+import pytz
 from dropbox import client, rest, session
-from global_config import DROPBOX_APP_KEY, DROPBOX_APP_SECRET, DROPBOX_ACCESS_TYPE, \
-    DROPBOX_REQUEST_TOKEN_KEY, DROPBOX_ACCESS_TOKEN_KEY, RAW_ENTRY_FILE_SUFFIX, \
-    RAWS_DIR, LOCAL_ENTRIES_DIR, LOCAL_TAGS_DIR, ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, \
-    REMOTE_IMAGE_DIR, LOCAL_IMAGE_DIR, PUBLIC_DIR, TIMEZONE, DOMAIN_URL, DROPBOX_ACCOUNT_EMAIL, \
-    BLOG_NAME, PAGE_POSTS_COUNT, NAV_ITEMS
+from flask import session as flask_session
+from flask import request, url_for
+from flask.ext.mako import render_template
+from werkzeug.exceptions import Forbidden
+from werkzeug.utils import cached_property
+
+from global_config import (BLOG_NAME, DOMAIN_URL, DROPBOX_ACCESS_TOKEN_KEY,
+                           DROPBOX_ACCESS_TYPE, DROPBOX_ACCOUNT_EMAIL,
+                           DROPBOX_APP_KEY, DROPBOX_APP_SECRET,
+                           DROPBOX_REQUEST_TOKEN_KEY, ENTRY_LINK_PATTERN,
+                           IMAGE_LINK_PATTERN, LOCAL_ENTRIES_DIR,
+                           LOCAL_IMAGE_DIR, LOCAL_TAGS_DIR, NAV_ITEMS,
+                           PAGE_POSTS_COUNT, PUBLIC_DIR, RAW_ENTRY_FILE_SUFFIX,
+                           RAWS_DIR, REMOTE_IMAGE_DIR, TIMEZONE)
+
 
 class DropboxSync(object):
 
@@ -32,7 +40,7 @@ class DropboxSync(object):
         self.output_tags_path = output_tags_path
 
     def process_remote_file(self, path):
-        print 'Downloading %s' % path
+        print('Downloading %s' % path)
         suffix = path.split('.')[-1]
         if path.endswith(RAW_ENTRY_FILE_SUFFIX):
             dir_path = self.content_path
@@ -52,11 +60,11 @@ class DropboxSync(object):
         except rest.ErrorResponse:
             pass
         # exists and no history
-        print 'Already downloaded'
+        print('Already downloaded')
         return
 
     def process_remote_dir(self, path):
-        print 'Processing remote dir', path
+        print('Processing remote dir: {0}'.format(path))
         if path != REMOTE_IMAGE_DIR:
             return
         folder_meta = self.client.metadata(path)
@@ -74,7 +82,7 @@ class DropboxSync(object):
                 self.process_remote_dir(path)
             else:
                 self.process_remote_file(path)
-        print 'Sync folder done.'
+        print('Sync folder done.')
 
     def get_file_created_at(self, path):
 
@@ -134,7 +142,7 @@ class DropboxSync(object):
         gen = open(join(self.output_entries_path, path), 'wb')
         gen.write(html_content)
         gen.close()
-        print 'Gen %s OK.' % name
+        print('Gen %s OK.' % name)
 
     def gen_home_page(self, files_info):
 
@@ -155,7 +163,7 @@ class DropboxSync(object):
             l.pop('self')
             gen.write(render_template('home.html', **l))
             gen.close()
-        print 'Gen home page OK.'
+        print('Gen home page OK.')
 
     def gen_archives_page(self, files_info):
         entries = files_info
@@ -164,7 +172,7 @@ class DropboxSync(object):
         l.pop('self')
         gen.write(render_template('archives.html', **l))
         gen.close()
-        print 'Gen archives page OK.'
+        print('Gen archives page OK.')
 
     def gen_tag_page(self, files_info):
         tags = {}
@@ -183,7 +191,7 @@ class DropboxSync(object):
             gen.close()
 
     def gen_pages(self):
-        print 'Gen html file now...'
+        print('Gen html file now...')
         try:
             dropbox_files = [f['path'].split('/')[-1] for f in self.client.metadata('/')['contents'] if f['is_dir'] == False]
             fs = [f for f in listdir(self.content_path) if isfile(join(self.content_path, f))\

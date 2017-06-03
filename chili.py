@@ -1,14 +1,19 @@
 #-*- coding:utf-8 -*-
-from werkzeug.exceptions import Forbidden
-from flask import Flask, request, redirect, url_for, send_from_directory, abort,\
-    flash, session as flask_session
-from flask.ext.mako import MakoTemplates, render_template
+from __future__ import print_function
+
 from dropbox.client import DropboxOAuth2Flow
+from flask import session as flask_session
+from flask import (Flask, abort, flash, redirect, request, send_from_directory,
+                   url_for)
+from flask.ext.mako import MakoTemplates, render_template
+from werkzeug.exceptions import Forbidden
+
+from global_config import (APP_SECRET_KEY, DOMAIN, DOMAIN2,
+                           DROPBOX_REQUEST_TOKEN_KEY, ENTRY_LINK_PATTERN,
+                           IMAGE_LINK_PATTERN, LOCAL_DEV, LOCAL_ENTRIES_DIR,
+                           LOCAL_IMAGE_DIR, LOCAL_TAGS_DIR, MAKO_DIR,
+                           PAGE_LINK_PATTERN, PUBLIC_DIR, TAG_LINK_PATTERN)
 from utils import Dropbox, DropboxSync
-from global_config import LOCAL_DEV, APP_SECRET_KEY, MAKO_DIR, DROPBOX_REQUEST_TOKEN_KEY,\
-    ENTRY_LINK_PATTERN, IMAGE_LINK_PATTERN, TAG_LINK_PATTERN,\
-    PUBLIC_DIR, LOCAL_ENTRIES_DIR, LOCAL_IMAGE_DIR, LOCAL_TAGS_DIR, DOMAIN, DOMAIN2,\
-    PAGE_LINK_PATTERN
 
 app = Flask(__name__)
 app.config['MAKO_DIR'] = MAKO_DIR
@@ -29,7 +34,7 @@ def sync():
         sync.sync_folder()
         return sync.gen_pages() + ' <a href="/">Back to home</a>'
     else:
-        print 'Can not auth to dropbox'
+        print('Can not auth to dropbox')
 
 @app.route('/regen')
 def regen_pages():
@@ -41,7 +46,7 @@ def regen_pages():
         DropboxSync(client).gen_pages()
         return redirect('/')
     else:
-        print 'Can not auth to dropbox'
+        print('Can not auth to dropbox')
 
 @app.route('/tools')
 def tools():
