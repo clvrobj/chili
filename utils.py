@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 
 import re
 import urllib
@@ -25,6 +25,7 @@ from global_config import (BLOG_NAME, DOMAIN_URL, DROPBOX_ACCESS_TOKEN_KEY,
                            LOCAL_IMAGE_DIR, LOCAL_TAGS_DIR, NAV_ITEMS,
                            PAGE_POSTS_COUNT, PUBLIC_DIR, RAW_ENTRY_FILE_SUFFIX,
                            RAWS_DIR, REMOTE_IMAGE_DIR, TIMEZONE)
+from six.moves import range
 
 
 class DropboxSync(object):
@@ -147,10 +148,10 @@ class DropboxSync(object):
     def gen_home_page(self, files_info):
 
         def chunks(l, n):
-            for i in xrange(0, len(l), n):
+            for i in range(0, len(l), n):
                 yield (i+1)/n + 1, l[i:i+n]
 
-        files_info = filter(lambda i: i['file_name'] not in NAV_ITEMS, files_info)
+        files_info = [i for i in files_info if i['file_name'] not in NAV_ITEMS]
 
         pages = list(chunks(files_info, PAGE_POSTS_COUNT))
         prev_page_id = 0

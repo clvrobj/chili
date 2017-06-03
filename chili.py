@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-from __future__ import print_function
+from __future__ import absolute_import, print_function
 
 from dropbox.client import DropboxOAuth2Flow
 from flask import session as flask_session
@@ -84,16 +84,16 @@ def public(filename):
 def dropbox_auth_finish():
     try:
         access_token, user_id, url_state = dropbox.get_auth_flow().finish(request.args)
-    except DropboxOAuth2Flow.BadRequestException, e:
+    except DropboxOAuth2Flow.BadRequestException as e:
         abort(400)
-    except DropboxOAuth2Flow.BadStateException, e:
+    except DropboxOAuth2Flow.BadStateException as e:
         abort(400)
-    except DropboxOAuth2Flow.CsrfException, e:
+    except DropboxOAuth2Flow.CsrfException as e:
         abort(403)
-    except DropboxOAuth2Flow.NotApprovedException, e:
+    except DropboxOAuth2Flow.NotApprovedException as e:
         flash('Not approved?  Why not')
         return redirect('/')
-    except DropboxOAuth2Flow.ProviderException, e:
+    except DropboxOAuth2Flow.ProviderException as e:
         app.logger.exception("Auth error" + e)
         abort(403)
     dropbox.login_success(access_token)
